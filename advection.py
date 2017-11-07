@@ -9,12 +9,12 @@ import matplotlib.pyplot as plt
 
 # read in all the linear advection schemes, initial conditions and other
 # code associated with this application (substitute with execfile if supported)
-runfile("diffusionSchemes.py")
+runfile("advectionCTCS.py")
 runfile("diagnostics.py")
 runfile("initialConditions.py")
 
-def main(xmin = 0., xmax = 1., nx = 41, nt = 40, dt = 0.1, d=0.16, K = 1e-3, \
-           squareWaveMin = 0.4, squareWaveMax = 0.6, name_fig='Question4'):
+def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
+           squareWaveMin = 0.0, squareWaveMax = 0.5, name_fig='attempt'):
     """
     Diffuse a squareWave between squareWaveMin and squareWaveMax on a domain
     between x = xmin and x = xmax split over nx spatial steps with diffusion
@@ -33,20 +33,13 @@ def main(xmin = 0., xmax = 1., nx = 41, nt = 40, dt = 0.1, d=0.16, K = 1e-3, \
     
     # default parameters set in the function arguments
     dx = (xmax - xmin)/(nx-1)
-    dt = d*dx**2/K                  # time step imposing the desired value of d
-    nt_1 = int(4.0/dt)              # imposing same duration for every run
-    if (4.0/dt-nt_1>0.5):
-        nt = nt_1 + 1
-    else:
-        nt = nt_1
-    """
-    # derived parameters
-    dx = (xmax - xmin)/(nx-1)
-    d = K*dt/dx**2   # time step imposing the desired value of d
-    #print("non-dimensional diffusion coefficient = ", d)
-    #print("dx = ", dx, " dt = ", dt, " nt = ", nt)
-    #print("end time = ", nt*dt)
-    """
+    dt = T/nt                  # time step imposing the desired value of d
+    c = dt*u/dx
+   
+    print("Courant number = ", c)
+    print("dx = ", dx, " dt = ", dt, " nt = ", nt)
+    print("end time = ", nt*dt)
+    
     
     # spatial points for plotting and for defining initial conditions
     x = np.zeros(nx)
@@ -59,17 +52,14 @@ def main(xmin = 0., xmax = 1., nx = 41, nt = 40, dt = 0.1, d=0.16, K = 1e-3, \
     # phiOld = naive(x, squareWaveMin, squareWaveMax)
     
     # analytic solution (of square wave profile in an infinite domain)
-    phiAnalytic = analyticErf(x, K*dt*nt, squareWaveMin, squareWaveMax)
+    phiAnalytic = squareWave(x, squareWaveMin + T, squareWaveMax +T)
     
     # diffusion using FTCS and BTCS
-    phiFTCS = FTCS(phiOld.copy(), d, nt)
-    phiBTCS = BTCS(phiOld.copy(), d, nt)
+    phiCTCS = CTCS(phiOld.copy(), c, nt)
     
     # calculate and print out error norms
-    L2errFTCS = L2ErrorNorm(phiFTCS, phiAnalytic)
-    L2errBTCS = L2ErrorNorm(phiBTCS, phiAnalytic)
-    #print("FTCS L2 error norm = ", L2errFTCS)
-    #print("BTCS L2 error norm = ", L2errBTCS)
+    L2errFTCS = L2ErrorNorm(phiCTCS, phiAnalytic)
+    print("FTCS L2 error norm = ", L2errFTCS)
     
     
     # plot the solutions
@@ -81,20 +71,20 @@ def main(xmin = 0., xmax = 1., nx = 41, nt = 40, dt = 0.1, d=0.16, K = 1e-3, \
     plt.plot(x, phiOld, label='Initial', color='black')
     plt.plot(x, phiAnalytic, label='Analytic', color='black', linestyle='--', \
              linewidth=2)
-    plt.plot(x, phiFTCS, label='FTCS', color='blue')
-    plt.plot(x, phiBTCS, label='BTCS', color='red')
+    plt.plot(x, phiCTCS, label='FTCS', color='blue')
     plt.axhline(0, linestyle=':', color='black')
     plt.ylim([0,1])
-    plt.legend(bbox_to_anchor=(1.1, 1))
+    plt.legend()
     plt.xlabel('$x$')
-    plt.title("t = {:.2f}, d = {:.2f}".format(nt*dt, d))
-    plt.savefig('Plots/' + name_fig + '(t=' + str(int(nt*dt)) + ').pdf')
+    plt.title("dt = {:.5f}, c = {:.2f}".format(dt, c))
+    plt.savefig(name_fig + '(c=' + str(c) + ').pdf')
     
     # plot the errors
     plt.figure(2)
     plt.clf()
     plt.ion()
     
+    """
     # defining the error vectors that are used in the graph and for evaluating
     # the extremes (m) on the y-axis for plotting
     errorFTCS = phiFTCS - phiAnalytic
@@ -109,7 +99,7 @@ def main(xmin = 0., xmax = 1., nx = 41, nt = 40, dt = 0.1, d=0.16, K = 1e-3, \
     plt.xlabel('$x$')
     plt.title("t = {:.2f}, d = {:.2f}".format(nt*dt, d))
     plt.savefig('Plots/' + name_fig + '(t=' + str(int(nt*dt)) + ')_errors.pdf')
-    
+    """
     
     return dx, L2errFTCS, L2errBTCS
 

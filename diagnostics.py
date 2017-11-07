@@ -14,15 +14,6 @@ import numpy as np
 # Import the special package for the erf function
 from scipy import special
 
-def analyticErf(x, Kt, alpha, beta):
-    "The analytic solution of the 1d diffusion equation with diffuions"
-    "coeffienct K at time t assuming top-hat initial conditions which are"
-    "one between alpha and beta and zero elsewhere"
-    
-    phi = 0.5 * special.erf((x-alpha)/np.sqrt(4*Kt))  \
-        - 0.5 * special.erf((x-beta )/np.sqrt(4*Kt))
-    return phi
-
 
 def L2ErrorNorm(phi, phiExact):
     "Calculates the L2 error norm (RMS error) of phi in comparison to"
