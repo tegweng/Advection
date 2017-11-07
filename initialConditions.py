@@ -3,10 +3,9 @@ import numpy as np
 # Initial conditions function for diffusion
 
 def squareWave(x,alpha,beta):
-    "A square wave as a function of position, x, which is 1 between alpha"
-    "and beta and zero elsewhere. The initialisation is conservative so"
-    "that each phi contains the correct quantity integrated over a region"
-    "a distance dx/2 either side of x"
+    """
+    id 25825273
+    """
     
     phi = np.zeros_like(x)
     
