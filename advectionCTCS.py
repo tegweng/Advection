@@ -29,11 +29,11 @@ def CTCS(phiOld, c, nt):
     phiNew = phiOld.copy()
     phiCurrent = phiOld.copy()
     
-    # FTBS for computing the first time step
+    # FTCS for computing the first time step
     for j in range(0,nx):
-        phiCurrent[j] = phiOld[j] - c*(phiOld[j] - phiOld[(j-1)%nx])
+        phiCurrent[j] = phiOld[j] - c*0.5*(phiOld[(j+1)%nx] - phiOld[(j-1)%nx])
     # CTCS for all time steps
-    for it in range(int(nt)):
+    for it in range(nt):
         
         # spatial points
         for j in range(0,nx):
@@ -44,9 +44,6 @@ def CTCS(phiOld, c, nt):
         phiCurrent = phiNew.copy()
         
     return phiNew
-
-
-
 
 
 
