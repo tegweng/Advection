@@ -12,8 +12,14 @@ def FTCS(phiOld, c, nt):
     
     phi = phiold.copy()
     
-    for i in xrange(nx):
-        phi[i] = phiold[i] - 0.5*c*(phiold[i+1] - phiold[(i-1)%nx])
-        
+    for j in xrange(int(nt)):
+        for i in xrange(nx):
+            phi[i] = phiold[i] - 0.5*c*(phiold[i+1] - phiold[(i-1)%nx])
+            
     return phi
+    
+   
+        
+        
+
 
