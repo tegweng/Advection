@@ -10,11 +10,13 @@ import matplotlib.pyplot as plt
 # read in all the linear advection schemes, initial conditions and other
 # code associated with this application (substitute with execfile if supported)
 execfile("advectionBTBS.py")
+execfile("Advection_FTBS.py")
+execfile("advectionFTCS.py")
+execfile("advectionCTCS.py")
 execfile("diagnostics.py")
 execfile("initialConditions.py")
 
-def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
-           squareWaveMin = 0.0, squareWaveMax = 0.5, name_fig='attempt'):
+def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, squareWaveMin = 0.0, squareWaveMax = 0.5, scheme = BTBS, func = cosine, name_fig='attempt'):
     """
     Advect an initial function between squareWaveMin and squareWaveMax on a domain
     between x = xmin and x = xmax split over nx spatial steps with Courant number c,\\
@@ -47,21 +49,19 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     
     #initial conditions (Each line is a different initial condition)
     #phiOld = squareWave(x, squareWaveMin, squareWaveMax)
-    phiOld = cosine(x,squareWaveMin, squareWaveMax)
+    phiOld = func(x,squareWaveMin, squareWaveMax)
     
     # analytic solution of the advection equation (in domain [0,1) )
     #using modulo to keep the solution in the domain
-    #phiAnalytic = squareWave(x, (squareWaveMin + u * T)%(xmax-xmin), (squareWaveMax + u * T)%(xmax-xmin))
-    phiAnalytic = cosine(x - u * T,squareWaveMin,squareWaveMax)
+   
+    phiAnalytic = func(x - u * T,squareWaveMin,squareWaveMax)
+    
     # diffusion using various diffusion schemes
-    #phiCTCS = CTCS(phiOld.copy(), c, nt)
-    phiBTBS = BTBS(phiOld.copy(), c, nt)
-    #phiFTBS = FTCS(phiOld.copy(), c, nt)
-    #phiFTCS = CTCS(phiOld.copy(), c, nt)
+    phischeme= scheme(phiOld.copy(), c, nt)
     
     # calculate and print out error norms
-    L2errBTBS = L2ErrorNorm(phiBTBS, phiAnalytic)
-    print("BTBS L2 error norm = ", L2errBTBS)
+    L2errScheme = L2ErrorNorm(phischeme, phiAnalytic)
+    print(scheme.__name__ + "L2 error norm = ", L2errScheme)
     
     
     # plot the solutions
@@ -73,13 +73,13 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     plt.plot(x, phiOld, label='Initial', color='black')
     plt.plot(x, phiAnalytic, label='Analytic', color='black', linestyle='--', \
              linewidth=2)
-    plt.plot(x, phiBTBS, label='BTBS', color='blue')
+    plt.plot(x, phischeme, label='scheme', color='blue')
     plt.axhline(0, linestyle=':', color='black')
     plt.ylim([0,2])
     plt.legend()
     plt.xlabel('$x$')
     plt.title("dt = {:.5f}, c = {:.2f}".format(dt, c))
-    plt.savefig(name_fig + '(c=' + str(c) + ').pdf')
+    plt.savefig(name_fig + '(c=' + str(c) +')' + scheme.__name__+ '.pdf')
     
     # plot the errors
     plt.figure(2)
@@ -103,7 +103,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     plt.savefig('Plots/' + name_fig + '(t=' + str(int(nt*dt)) + ')_errors.pdf')
     """
     
-    return dx, L2errBTBS
+    return dx, L2errScheme
 
 
 def nrms_error_graph(N,d_fixed):
