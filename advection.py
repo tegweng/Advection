@@ -54,9 +54,10 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     phiAnalytic = squareWave(x, (squareWaveMin + u * T)%(xmax-xmin), (squareWaveMax + u * T)%(xmax-xmin))
     
     # diffusion using various diffusion schemes
-    phiCTCS = CTCS(phiOld.copy(), c, nt)
+    #phiCTCS = CTCS(phiOld.copy(), c, nt)
     phiBTBS = BTBS(phiOld.copy(), c, nt)
-    phiFTBS = FTBS(phiOld.copy(), c, nt)
+    #phiFTBS = FTCS(phiOld.copy(), c, nt)
+    #phiFTCS = CTCS(phiOld.copy(), c, nt)
     
     # calculate and print out error norms
     L2errCTCS = L2ErrorNorm(phiCTCS, phiAnalytic)
