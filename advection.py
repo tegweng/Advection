@@ -46,13 +46,13 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     #print('x = ', x)
     
     #initial conditions (Each line is a different initial condition)
-    phiOld = squareWave(x, squareWaveMin, squareWaveMax)
-    # phiOld = cosine(x, squareWaveMin, squareWaveMax)
+    #phiOld = squareWave(x, squareWaveMin, squareWaveMax)
+    phiOld = cosine(x,squareWaveMin, squareWaveMax)
     
     # analytic solution of the advection equation (in domain [0,1) )
     #using modulo to keep the solution in the domain
-    phiAnalytic = squareWave(x, (squareWaveMin + u * T)%(xmax-xmin), (squareWaveMax + u * T)%(xmax-xmin))
-    
+    #phiAnalytic = squareWave(x, (squareWaveMin + u * T)%(xmax-xmin), (squareWaveMax + u * T)%(xmax-xmin))
+    phiAnalytic = cosine(x - u * T,squareWaveMin,squareWaveMax)
     # diffusion using various diffusion schemes
     #phiCTCS = CTCS(phiOld.copy(), c, nt)
     phiBTBS = BTBS(phiOld.copy(), c, nt)
@@ -60,8 +60,8 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     #phiFTCS = CTCS(phiOld.copy(), c, nt)
     
     # calculate and print out error norms
-    L2errCTCS = L2ErrorNorm(phiCTCS, phiAnalytic)
-    print("CTCS L2 error norm = ", L2errCTCS)
+    L2errBTBS = L2ErrorNorm(phiBTBS, phiAnalytic)
+    print("BTBS L2 error norm = ", L2errBTBS)
     
     
     # plot the solutions
@@ -75,7 +75,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
              linewidth=2)
     plt.plot(x, phiBTBS, label='BTBS', color='blue')
     plt.axhline(0, linestyle=':', color='black')
-    plt.ylim([0,1])
+    plt.ylim([0,2])
     plt.legend()
     plt.xlabel('$x$')
     plt.title("dt = {:.5f}, c = {:.2f}".format(dt, c))
@@ -103,7 +103,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     plt.savefig('Plots/' + name_fig + '(t=' + str(int(nt*dt)) + ')_errors.pdf')
     """
     
-    return dx, L2errFTCS, L2errBTCS
+    return dx, L2errBTBS
 
 
 def nrms_error_graph(N,d_fixed):

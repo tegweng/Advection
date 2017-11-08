@@ -5,6 +5,7 @@ import numpy as np
 def squareWave(x,alpha,beta):
     """
     id 25825273
+    id 25803263
     """
     
     phi = np.zeros_like(x)
@@ -24,19 +25,18 @@ def squareWave(x,alpha,beta):
     return phi
 
 
-def cosine(x,alpha):
-    "A square wave as a function of position, x, which is 1 between alpha"
-    "and beta and zero elsewhere. The initialisation is conservative so"
-    "that each phi contains the correct quantity integrated over a region"
-    "a distance dx/2 either side of x"
+def cosine(x, beta, alpha):
+    "A wave as a function of position, x, which is 0 for x > alpha"
+
+    "id 25803263"
+    
     
     phi = np.zeros_like(x)
     
     # Set phi away from the end points (assume zero at the end points)
     for j in range(0,len(x)-2):
-        if (x[j] < alpha):
+        if (beta < x[j] < alpha):
             phi[j] = 0.5*(1 - np.cos(4*np.pi*x[j]))
-
     phi[len(x)-1]=phi[0]
     return phi
 
