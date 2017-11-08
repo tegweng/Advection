@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
-# Outer code for setting up the diffusion problem on a uniform
-# grid and calling the function to perform the diffusion and plot.
+# Outer code for setting up the advection problem on a uniform
+# grid and calling the function to perform the advection and plot.
 
 from __future__ import absolute_import, division, print_function
 
@@ -16,7 +16,7 @@ runfile("initialConditions.py")
 def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
            squareWaveMin = 0.0, squareWaveMax = 0.5, name_fig='attempt'):
     """
-    Advect a an initial function between squareWaveMin and squareWaveMax on a domain
+    Advect an initial function between squareWaveMin and squareWaveMax on a domain
     between x = xmin and x = xmax split over nx spatial steps with Courant number c,\\
     and time step dt for nt time steps.
     There are two separate initial conditions which are contained in the file \\
@@ -50,14 +50,17 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     # phiOld = cosine(x, squareWaveMin, squareWaveMax)
     
     # analytic solution of the advection equation (in domain [0,1) )
+    #using modulo to keep the solution in the domain
     phiAnalytic = squareWave(x, (squareWaveMin + u * T)%(xmax-xmin), (squareWaveMax + u * T)%(xmax-xmin))
     
-    # diffusion using FTCS and BTCS
+    # diffusion using various diffusion schemes
     phiCTCS = CTCS(phiOld.copy(), c, nt)
+    phiBTBS = BTBS(phiOld.copy(), c, nt)
+    phiFTBS = FTBS(phiOld.copy(), c, nt)
     
     # calculate and print out error norms
-    L2errFTCS = L2ErrorNorm(phiCTCS, phiAnalytic)
-    print("FTCS L2 error norm = ", L2errFTCS)
+    L2errCTCS = L2ErrorNorm(phiCTCS, phiAnalytic)
+    print("CTCS L2 error norm = ", L2errCTCS)
     
     
     # plot the solutions
@@ -69,7 +72,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     plt.plot(x, phiOld, label='Initial', color='black')
     plt.plot(x, phiAnalytic, label='Analytic', color='black', linestyle='--', \
              linewidth=2)
-    plt.plot(x, phiCTCS, label='FTCS', color='blue')
+    plt.plot(x, phiBTBS, label='BTBS', color='blue')
     plt.axhline(0, linestyle=':', color='black')
     plt.ylim([0,1])
     plt.legend()
