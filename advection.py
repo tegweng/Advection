@@ -9,9 +9,9 @@ import matplotlib.pyplot as plt
 
 # read in all the linear advection schemes, initial conditions and other
 # code associated with this application (substitute with execfile if supported)
-runfile("advectionBTBS.py")
-runfile("diagnostics.py")
-runfile("initialConditions.py")
+execfile("advectionBTBS.py")
+execfile("diagnostics.py")
+execfile("initialConditions.py")
 
 def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
            squareWaveMin = 0.0, squareWaveMax = 0.5, name_fig='attempt'):
