@@ -8,7 +8,7 @@ from __future__ import absolute_import, division, print_function
 import matplotlib.pyplot as plt
 
 # read in all the linear advection schemes, initial conditions and other
-# code associated with this application (substitute with execfile if supported)
+# code associated with this application (use with runfile if exec not supported)
 execfile("advectionBTBS.py")
 execfile("Advection_FTBS.py")
 execfile("advectionFTCS.py")
@@ -16,20 +16,31 @@ execfile("advectionCTCS.py")
 execfile("diagnostics.py")
 execfile("initialConditions.py")
 
-def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, squareWaveMin = 0.0, squareWaveMax = 0.5, scheme = BTBS, func = cosine, name_fig='attempt'):
+"""
+runfile("advectionBTBS.py")
+runfile("Advection_FTBS.py")
+runfile("advectionFTCS.py")
+runfile("advectionCTCS.py")
+runfile("diagnostics.py")
+runfile("initialConditions.py")
+"""
+
+def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
+         squareWaveMin = 0.0, squareWaveMax = 0.5, scheme = BTBS, \
+         func = cosine, name_fig='attempt'):
     """
-    Advect an initial function between squareWaveMin and squareWaveMax on a domain
-    between x = xmin and x = xmax split over nx spatial steps with Courant number c,\\
-    and time step dt for nt time steps.
-    There are two separate initial conditions which are contained in the file \\
-    initialConditions.py. These can be commented out in the code below as\\
+    Advect an initial function between squareWaveMin and squareWaveMax on a 
+    domain between x = xmin and x = xmax split over nx spatial steps 
+    with Courant number c and time step dt for nt time steps.
+    There are two separate initial conditions which are contained in the file
+    initialConditions.py. These can be commented out in the code below as
     required.
     """
     
     
-    #code for fixed c, nt and nx (modification is needed also in the main arguments)
-    #changing dt so that T remains the same, then calculating the courant number c
-    #All simulations are of the same duration
+    # code for fixed c, nt and nx (modification is needed also in the main 
+    # arguments) changing dt so that T remains the same, then calculating the
+    # courant number c. All simulations are of the same duration.
     
     # default parameters set in the function arguments
     dx = (xmax - xmin)/(nx-1)
@@ -57,10 +68,10 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, squareWaveMin
     phiAnalytic = func(x - u * T,squareWaveMin,squareWaveMax)
     
     # diffusion using various diffusion schemes
-    phischeme= scheme(phiOld.copy(), c, nt)
+    phiScheme= scheme(phiOld.copy(), c, nt)
     
     # calculate and print out error norms
-    L2errScheme = L2ErrorNorm(phischeme, phiAnalytic)
+    L2errScheme = L2ErrorNorm(phiScheme, phiAnalytic)
     print(scheme.__name__ + "L2 error norm = ", L2errScheme)
     
     
@@ -73,20 +84,22 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, squareWaveMin
     plt.plot(x, phiOld, label='Initial', color='black')
     plt.plot(x, phiAnalytic, label='Analytic', color='black', linestyle='--', \
              linewidth=2)
-    plt.plot(x, phischeme, label='scheme', color='blue')
+    plt.plot(x, phiScheme, label=scheme.__name__, color='blue')
     plt.axhline(0, linestyle=':', color='black')
+    plt.xlim([0,1])
     plt.ylim([0,2])
     plt.legend()
     plt.xlabel('$x$')
     plt.title("dt = {:.5f}, c = {:.2f}".format(dt, c))
-    plt.savefig(name_fig + '(c=' + str(c) +')' + scheme.__name__+ '.pdf')
-    
+    plt.savefig(name_fig + '(c=' + str(c) +')' + scheme.__name__+ '_' + \
+                func.__name__ + '.pdf')
+    """
     # plot the errors
     plt.figure(2)
     plt.clf()
     plt.ion()
     
-    """
+    
     # defining the error vectors that are used in the graph and for evaluating
     # the extremes (m) on the y-axis for plotting
     errorFTCS = phiFTCS - phiAnalytic
