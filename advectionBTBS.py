@@ -30,10 +30,10 @@ def BTBS(phi, c, nt):
     M[-1,-1] = 1.
     M[-1,-2] = -1.
     
+    #setting initial 
     for i in xrange(1,nx-1):
-        M[i,i-1] = -d
-        M[i,i] = 1+2*d
-        M[i,i+1] = -d
+        M[i,i-1] = -c
+        M[i,i] = 1+c
     
     #BTBS for all time steps
     
