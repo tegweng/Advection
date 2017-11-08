@@ -25,13 +25,13 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     """
     
     
-    #code for fixed d and nx (modification is needed also in the main arguments)
-    #changing dt so that d remains the same, also nt is defined in order to have
-    #all simulations of the same duration
+    #code for fixed c, nt and nx (modification is needed also in the main arguments)
+    #changing dt so that T remains the same, then calculating the courant number c
+    #All simulations are of the same duration
     
     # default parameters set in the function arguments
     dx = (xmax - xmin)/(nx-1)
-    dt = T/nt                  # time step imposing the desired value of d
+    dt = T/nt                  # time step imposing correct time length T
     c = dt*u/dx
    
     print("Courant number = ", c)
