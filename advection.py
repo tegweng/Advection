@@ -32,7 +32,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     # default parameters set in the function arguments
     dx = (xmax - xmin)/(nx-1)
     dt = T/nt                  # time step imposing correct time length T
-    c = dt*u/dx
+    c = dt*u/dx                #calculating c now we have dt
    
     print("Courant number = ", c)
     print("dx = ", dx, " dt = ", dt, " nt = ", nt)
@@ -45,12 +45,12 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
         x[j] = xmin + j*dx
     #print('x = ', x)
     
-    #initial conditions (second line is related to naive definition of in. c.ns)
+    #initial conditions (Each line is a different initial condition)
     phiOld = squareWave(x, squareWaveMin, squareWaveMax)
-    # phiOld = naive(x, squareWaveMin, squareWaveMax)
+    # phiOld = cosine(x, squareWaveMin, squareWaveMax)
     
-    # analytic solution (of square wave profile in an infinite domain)
-    phiAnalytic = squareWave(x, squareWaveMin + T, squareWaveMax +T)
+    # analytic solution of the advection equation (in domain [0,1) )
+    phiAnalytic = squareWave(x, (squareWaveMin + u * T)%(xmax-xmin), (squareWaveMax + u * T)%(xmax-xmin))
     
     # diffusion using FTCS and BTCS
     phiCTCS = CTCS(phiOld.copy(), c, nt)
