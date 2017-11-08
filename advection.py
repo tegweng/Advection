@@ -9,21 +9,19 @@ import matplotlib.pyplot as plt
 
 # read in all the linear advection schemes, initial conditions and other
 # code associated with this application (substitute with execfile if supported)
-runfile("advectionCTCS.py")
+runfile("advectionBTBS.py")
 runfile("diagnostics.py")
 runfile("initialConditions.py")
 
 def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
            squareWaveMin = 0.0, squareWaveMax = 0.5, name_fig='attempt'):
     """
-    Diffuse a squareWave between squareWaveMin and squareWaveMax on a domain
-    between x = xmin and x = xmax split over nx spatial steps with diffusion
-    coefficient K, time step dt for nt time steps.
-    It may seem that some arguments are defined in the wrong place: 
-    that is because in different situations one may wish to fix d and vary
-    other parameters: However, if some arguments are difined at the beginning
-    even if they will be changed, this redefinition has no effects to the aim of
-    the code.
+    Advect a an initial function between squareWaveMin and squareWaveMax on a domain
+    between x = xmin and x = xmax split over nx spatial steps with Courant number c,\\
+    and time step dt for nt time steps.
+    There are two separate initial conditions which are contained in the file \\
+    initialConditions.py. These can be commented out in the code below as\\
+    required.
     """
     
     
