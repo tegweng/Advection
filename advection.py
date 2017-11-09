@@ -116,10 +116,10 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     plt.savefig('Plots/' + name_fig + '(t=' + str(int(nt*dt)) + ')_errors.pdf')
     """
     
-    return dx, L2errScheme
+#    return dx, L2errScheme
 
 
-def nrms_error_graph(N,d_fixed):
+#def nrms_error_graph(N,d_fixed):
     
     """
     Code for studying the order of convergence of the FTCS and BTCS schemes.
@@ -129,40 +129,40 @@ def nrms_error_graph(N,d_fixed):
     """
     
     # initializing the vector which stores the L2 Error Norm values
-    vector = np.zeros((N,3))
-    for it in range(N):
-        vector[it,:] = main(nx=21+it*50,d=d_fixed)
+    #vector = np.zeros((N,3))
+    #for it in range(N):
+    #    vector[it,:] = main(nx=21+it*50,d=d_fixed)
     
     # defining the vectors ued for calculating the order of convergence for both
     # FTCS(n) and BTCS(m) schemes by computing the slope between points
-    n = np.zeros(N-1)
-    for i in range(N-1):
-        n[i] = (np.log(vector[i+1,1]) - np.log(vector[i,1]))/\
-                (np.log(vector[i+1,0]) - np.log(vector[i,0]))
+    #n = np.zeros(N-1)
+    #for i in range(N-1):
+    #    n[i] = (np.log(vector[i+1,1]) - np.log(vector[i,1]))/\
+    #            (np.log(vector[i+1,0]) - np.log(vector[i,0]))
     
-    m = np.zeros(N-1)
-    for i in range(N-1):
-        m[i] = (np.log(vector[i+1,2]) - np.log(vector[i,2]))/\
-                (np.log(vector[i+1,0]) - np.log(vector[i,0]))
+    #m = np.zeros(N-1)
+    #for i in range(N-1):
+    #    m[i] = (np.log(vector[i+1,2]) - np.log(vector[i,2]))/\
+    #            (np.log(vector[i+1,0]) - np.log(vector[i,0]))
     
     # printing out the result by averaging the values stored in n, m
-    print("Order of convergence: FTCS = {:.2f}, BTCS = {:.2f}".format(n.mean()\
-          ,m.mean()))
+    #print("Order of convergence: FTCS = {:.2f}, BTCS = {:.2f}".format(n.mean()\
+    #      ,m.mean()))
     
     # plotting the points onto a log-log graph
-    font = {'size' : 10}
-    plt.rc('font', **font)
-    plt.figure(3)
-    plt.clf()
-    plt.ion()
-    plt.loglog(vector[:,0].transpose(), vector[:,1].transpose(),'bx',\
-               label='FTCS (mean slope = {:.2f})'.format(n.mean()))
-    plt.loglog(vector[:,0].transpose(), vector[:,2].transpose(),'ro',\
-               label='BTCS (mean.slope = {:.2f})'.format(m.mean()))
-    plt.loglog(vector[:,0].transpose(),8*(vector[:,0].transpose())**2)
-    plt.legend()
-    plt.xlabel('$\Delta x$')
-    plt.ylabel('$\ell_2$ Norm Error')
-    plt.title('Log-log plot of $\ell_2$ Norm Error with d={:.1f}'.format(\
-              d_fixed))
-    plt.savefig('Plots/L2errorPlot{}.pdf'.format(int(d_fixed*10)))
+    #font = {'size' : 10}
+    #plt.rc('font', **font)
+    #plt.figure(3)
+    #plt.clf()
+    #plt.ion()
+    #plt.loglog(vector[:,0].transpose(), vector[:,1].transpose(),'bx',\
+    #           label='FTCS (mean slope = {:.2f})'.format(n.mean()))
+    #plt.loglog(vector[:,0].transpose(), vector[:,2].transpose(),'ro',\
+    #           label='BTCS (mean.slope = {:.2f})'.format(m.mean()))
+    #plt.loglog(vector[:,0].transpose(),8*(vector[:,0].transpose())**2)
+    #plt.legend()
+    #plt.xlabel('$\Delta x$')
+    #plt.ylabel('$\ell_2$ Norm Error')
+    #plt.title('Log-log plot of $\ell_2$ Norm Error with d={:.1f}'.format(\
+    #          d_fixed))
+    #plt.savefig('Plots/L2errorPlot{}.pdf'.format(int(d_fixed*10)))
