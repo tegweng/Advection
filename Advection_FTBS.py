@@ -18,8 +18,8 @@ def FTBS(phiOld, c, nt):
     
     #FTBS for all time steps using arrays over time and space
     #Using modulo arithmetic for periodic boundaries
-    for it in xrange(nt):
-        for i in xrange(1, nx-1):
+    for it in range(nt):
+        for i in range(1, nx-1):
             phi[i] = phiOld[i] - c*(phiOld[i] - phiOld[(i-1)%nx])
         phiOld = phi.copy()
         

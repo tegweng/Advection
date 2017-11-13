@@ -30,13 +30,13 @@ def BTBS(phi, c, nt):
 
     
     #setting initial 
-    for i in xrange(1,nx-1):
+    for i in range(1,nx-1):
         M[i,i-1] = -c
         M[i,i] = 1+c
     
     #BTBS for all time steps
     
-    for it in xrange(int(nt)):
+    for it in range(int(nt)):
         #RHS for zero gradient boundary conditions - have to keep resetting the \
         #boundary to be 0 at each time step
         phi[0] = 0.

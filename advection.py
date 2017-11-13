@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 
 # read in all the linear advection schemes, initial conditions and other
 # code associated with this application (use with runfile if exec not supported)
+"""
 execfile("advectionBTBS.py")
 execfile("Advection_FTBS.py")
 execfile("advectionFTCS.py")
@@ -23,7 +24,7 @@ runfile("advectionFTCS.py")
 runfile("advectionCTCS.py")
 runfile("diagnostics.py")
 runfile("initialConditions.py")
-"""
+
 
 def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
          squareWaveMin = 0.0, squareWaveMax = 0.5, scheme = BTBS, \
@@ -68,7 +69,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     phiAnalytic = func(x - u * T,squareWaveMin,squareWaveMax)
     
     # diffusion using various diffusion schemes
-    phiScheme= scheme(phiOld.copy(), c, nt)
+    phiScheme = scheme(phiOld.copy(), c, nt)
     
     # calculate and print out error norms
     L2errScheme = L2ErrorNorm(phiScheme, phiAnalytic)
@@ -90,7 +91,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     plt.ylim([0,2])
     plt.legend()
     plt.xlabel('$x$')
-    plt.title("dt = {:.5f}, c = {:.2f}".format(dt, c))
+    plt.title("dt = {:.5f}, c = {:.3f}".format(dt, c))
     plt.savefig(name_fig + '(c=' + str(c) +')' + scheme.__name__+ '_' + \
                 func.__name__ + '.pdf')
     """
@@ -116,7 +117,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     plt.savefig('Plots/' + name_fig + '(t=' + str(int(nt*dt)) + ')_errors.pdf')
     """
     
-#    return dx, L2errScheme
+    return x, phiScheme, phiAnalytic
 
 
 #def nrms_error_graph(N,d_fixed):
