@@ -22,25 +22,15 @@ def BTBS(phi, c, nt):
     
     #array representing BTBS
     M=np.zeros([nx,nx])
-    
-    #zero gradient boundary conditions for initial time-step
-    
-    M[0,0] = 0.5
-    M[-1,-1] = 0.5
-
-    
+   
     #setting initial 
-    for i in range(1,nx-1):
-        M[i,i-1] = -c
+    for i in range(0,nx):
+        M[i,(i-1)%nx] = -c
         M[i,i] = 1+c
     
     #BTBS for all time steps
     
     for it in range(int(nt)):
-        #RHS for zero gradient boundary conditions - have to keep resetting the \
-        #boundary to be 0 at each time step
-        phi[0] = 0.
-        phi[-1] = 0.
         #as have to do the following for all time steps it is in the for loop
         phi = la.solve(M, phi)
     
