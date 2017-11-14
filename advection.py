@@ -61,7 +61,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     #print('x = ', x)
     
     #initial conditions (Each line is a different initial condition)
-    #phiOld = squareWave(x, squareWaveMin, squareWaveMax)
+    
     phiOld = func(x,squareWaveMin, squareWaveMax)
     
     # analytic solution of the advection equation (in domain [0,1) )
@@ -70,7 +70,14 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     phiAnalytic = func(x - u * T,squareWaveMin,squareWaveMax)
     
     # diffusion using various diffusion schemes
-    phiScheme = scheme(phiOld.copy(), c, nt)
+    if scheme == TVD:
+        phiScheme = scheme(phiOld.copy(), c, nt, u)
+    if scheme == ArtDiff:
+        phiScheme = scheme(phiOld.copy(), c, nt, d)
+    if scheme == SemiLag:
+        phiScheme = scheme(phiOld.copy(), c, nt, u, dt)
+    else:
+        phiScheme = scheme(phiOld.copy(), c, nt)
     
     # calculate and print out error norms
     L2errScheme = L2ErrorNorm(phiScheme, phiAnalytic)

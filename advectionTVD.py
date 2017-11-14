@@ -42,7 +42,7 @@ def TVD(phiOld, c, nt, u):
         for i in xrange(0,nx):
             phiH[i] = 0.5 * (1 + c) * phiOld[i] + 0.5 * (1 - c) * phiOld[(i+1)%nx]
     
-        #First-order upwinds as the low-order flux
+            #First-order upwinds as the low-order flux
       
 
             if u < 0:
@@ -50,27 +50,34 @@ def TVD(phiOld, c, nt, u):
             else: 
                 phiL[i] = phiOld[(i+1)%nx]
                 
-        #calculating r
-            g = (phiOld[(i+1)%nx] - phiOld[i])
-        #need to think about what happens if the denominator is zero
+            #calculating r
+            
+            
+            
             r[i] = (phiOld[i] - phiOld[(i-1)%nx]) / (phiOld[(i+1)%nx] - phiOld[i])
     
-        #calculating Van Leer Limiter    
-       
-            if g==0:
+            #calculating Van Leer Limiter    
+            g = phiOld[(i+1)%nx] - phiOld[i]
+            h = phiOld[i] - phiOld[(i-1)%nx]
+            
+            if g == 0 and h == 0:
+                VLL[i] = 1
+                #as when they both tend to zero the answer will tend to one
+            if g == 0 and h != 0: 
                 VLL[i] = 2
                 #as when r -> infinity VLL -> 2
             else:
                 VLL[i] = ( r[i] + abs(r[i]) ) / (1 + abs(r[i]) )
-    
-        #calculating values of phi at j+1/2 etc
+            #VLL[i]=1
+            #calculating values of phi at j+1/2 etc
         
 
             phiTVD[i] = VLL[i] * phiH[i] + (1 - VLL[i]) * phiL[i]
         
-        #calculating phi at n+1
+            #calculating phi at n+1
         
             phi[i] = phiOld[i] - c * (phiTVD[i] - phiTVD[(i-1)%nx])
+            
         #setting phiOld to be phi to return to top of loop
         phiOld = phi.copy()
     
