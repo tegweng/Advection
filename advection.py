@@ -16,6 +16,7 @@ execfile("advectionFTCS.py")
 execfile("advectionCTCS.py")
 execfile("diagnostics.py")
 execfile("initialConditions.py")
+execfile("advectionTVD.py")
 
 """
 runfile("advectionBTBS.py")
@@ -24,7 +25,7 @@ runfile("advectionFTCS.py")
 runfile("advectionCTCS.py")
 runfile("diagnostics.py")
 runfile("initialConditions.py")
-
+runfile("advectionTVD.py")
 
 def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
          squareWaveMin = 0.0, squareWaveMax = 0.5, scheme = BTBS, \
