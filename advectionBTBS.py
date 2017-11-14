@@ -23,7 +23,7 @@ def BTBS(phi, c, nt):
     #array representing BTBS
     M=np.zeros([nx,nx])
    
-    #setting initial 
+    #setting initial timestep
     for i in range(0,nx):
         M[i,(i-1)%nx] = -c
         M[i,i] = 1+c
@@ -35,3 +35,4 @@ def BTBS(phi, c, nt):
         phi = la.solve(M, phi)
     
     return phi
+    
