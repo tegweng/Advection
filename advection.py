@@ -16,6 +16,7 @@ execfile("advectionFTCS.py")
 execfile("advectionCTCS.py")
 execfile("diagnostics.py")
 execfile("initialConditions.py")
+execfile("Artificial_diffusion.py")
 
 """
 runfile("advectionBTBS.py")
@@ -24,9 +25,10 @@ runfile("advectionFTCS.py")
 runfile("advectionCTCS.py")
 runfile("diagnostics.py")
 runfile("initialConditions.py")
+runfile("Artificial_diffusion.py")
 
 
-def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
+def main(xmin = 0., xmax = 1., nx = 40, T = 0.125, nt = 40, u = 1, k=2e-5, \
          squareWaveMin = 0.0, squareWaveMax = 0.5, scheme = BTBS, \
          func = cosine, name_fig='attempt'):
     """
@@ -44,7 +46,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     # courant number c. All simulations are of the same duration.
     
     # default parameters set in the function arguments
-    dx = (xmax - xmin)/(nx-1)
+    dx = (xmax - xmin)/nx
     dt = T/nt                  # time step imposing correct time length T
     c = dt*u/dx                #calculating c now we have dt
    
@@ -64,12 +66,17 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     phiOld = func(x,squareWaveMin, squareWaveMax)
     
     # analytic solution of the advection equation (in domain [0,1) )
-    #using modulo to keep the solution in the domain
+    # using modulo to keep the solution in the domain
    
     phiAnalytic = func(x - u * T,squareWaveMin,squareWaveMax)
     
-    # diffusion using various diffusion schemes
-    phiScheme = scheme(phiOld.copy(), c, nt)
+    if ((scheme==Artificial_diffusion2) or (scheme==Artificial_diffusion4)):
+        phiScheme = scheme(phiOld.copy(), c, nt, dx, dt, k)
+        print("d_2 is ", k*dt/dx**2)
+        print("d_4 is ", k*dt/dx**4)
+    else:
+        # diffusion using various diffusion schemes
+        phiScheme = scheme(phiOld.copy(), c, nt)
     
     # calculate and print out error norms
     L2errScheme = L2ErrorNorm(phiScheme, phiAnalytic)
@@ -88,7 +95,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     plt.plot(x, phiScheme, label=scheme.__name__, color='blue')
     plt.axhline(0, linestyle=':', color='black')
     plt.xlim([0,1])
-    plt.ylim([0,2])
+    plt.ylim([-1,2])
     plt.legend()
     plt.xlabel('$x$')
     plt.title("dt = {:.5f}, c = {:.3f}".format(dt, c))
@@ -117,7 +124,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     plt.savefig('Plots/' + name_fig + '(t=' + str(int(nt*dt)) + ')_errors.pdf')
     """
     
-    return x, phiScheme, phiAnalytic
+    #return x, phiScheme, phiAnalytic
 
 
 #def nrms_error_graph(N,d_fixed):
