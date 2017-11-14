@@ -17,16 +17,20 @@ import scipy.linalg as la
 def BTBS(phi, c, nt):
     "Diffusion of profile in phi using BTBS using the\
     Courant number, c, assuming fixed value boundary conditions"
+    if nt<=0:
+        raise ValueError('Argument nt to BTBS must be positive and non zero.')     
+    if not(isinstance(phi,np.ndarray)):
+        raise TypeError('Argument phiOld to BTBS must be a numpy array')
     
     nx = len(phi)
-    
+    c = float(c)
     #array representing BTBS
     M=np.zeros([nx,nx])
    
     #setting initial timestep
     for i in range(0,nx):
-        M[i,(i-1)%nx] = -c
-        M[i,i] = 1+c
+        M[i,(i-1)%nx] = - c
+        M[i,i] = 1 + c
     
     #BTBS for all time steps
     
@@ -36,3 +40,17 @@ def BTBS(phi, c, nt):
     
     return phi
     
+   
+try:
+    BTBS(np.zeros(6), 1, 0)
+except ValueError:
+    pass
+else:
+    print('Error in BTBS, an error should be raised if nt<=0')
+
+try:
+    BTBS(0,1,4)
+except TypeError:
+    pass
+else:
+    print('Error in BTBS, an error should be raised if phiOld is not a numpy array')
