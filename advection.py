@@ -77,8 +77,8 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
 
     # diffusion using various diffusion schemes
     phiTVD = TVD(phiOld.copy(), c, nt, u)
-    phiArt_diff2 = ArtificialDiffusion2(phiOld.copy(), c, nt, dx, dt, d)
-    phiArt_diff4 = ArtificialDiffusion4(phiOld.copy(), c, nt, dx, dt, d)
+    phiArt_diff2 = Artificial_diffusion2(phiOld.copy(), c, nt, dx, dt, d)
+    phiArt_diff4 = Artificial_diffusion4(phiOld.copy(), c, nt, dx, dt, d)
     phiSemiLag = SemiLag(phiOld.copy(), c, nt, u, dt)
     phiFTCSWB = FTCSWB(phiOld.copy(), c, nt)
     phiBTBS = BTBS(phiOld.copy(), c, nt)
