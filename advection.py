@@ -16,7 +16,11 @@ execfile("advectionFTCS.py")
 execfile("advectionCTCS.py")
 execfile("diagnostics.py")
 execfile("initialConditions.py")
+<<<<<<< HEAD
 execfile("Artificial_diffusion.py")
+=======
+execfile("advectionTVD.py")
+>>>>>>> 126572a51adc85f94c5b43b191a72e44cf19eae2
 
 """
 runfile("advectionBTBS.py")
@@ -25,8 +29,12 @@ runfile("advectionFTCS.py")
 runfile("advectionCTCS.py")
 runfile("diagnostics.py")
 runfile("initialConditions.py")
+<<<<<<< HEAD
 runfile("Artificial_diffusion.py")
 
+=======
+runfile("advectionTVD.py")
+>>>>>>> 126572a51adc85f94c5b43b191a72e44cf19eae2
 
 def main(xmin = 0., xmax = 1., nx = 40, T = 0.125, nt = 40, u = 1, k=2e-5, \
          squareWaveMin = 0.0, squareWaveMax = 0.5, scheme = BTBS, \
@@ -62,7 +70,7 @@ def main(xmin = 0., xmax = 1., nx = 40, T = 0.125, nt = 40, u = 1, k=2e-5, \
     #print('x = ', x)
     
     #initial conditions (Each line is a different initial condition)
-    #phiOld = squareWave(x, squareWaveMin, squareWaveMax)
+    
     phiOld = func(x,squareWaveMin, squareWaveMax)
     
     # analytic solution of the advection equation (in domain [0,1) )
@@ -70,12 +78,23 @@ def main(xmin = 0., xmax = 1., nx = 40, T = 0.125, nt = 40, u = 1, k=2e-5, \
    
     phiAnalytic = func(x - u * T,squareWaveMin,squareWaveMax)
     
+<<<<<<< HEAD
     if ((scheme==Artificial_diffusion2) or (scheme==Artificial_diffusion4)):
         phiScheme = scheme(phiOld.copy(), c, nt, dx, dt, k)
         print("d_2 is ", k*dt/dx**2)
         print("d_4 is ", k*dt/dx**4)
     else:
         # diffusion using various diffusion schemes
+=======
+    # diffusion using various diffusion schemes
+    if scheme == TVD:
+        phiScheme = scheme(phiOld.copy(), c, nt, u)
+    if scheme == ArtDiff:
+        phiScheme = scheme(phiOld.copy(), c, nt, d)
+    if scheme == SemiLag:
+        phiScheme = scheme(phiOld.copy(), c, nt, u, dt)
+    else:
+>>>>>>> 126572a51adc85f94c5b43b191a72e44cf19eae2
         phiScheme = scheme(phiOld.copy(), c, nt)
     
     # calculate and print out error norms
