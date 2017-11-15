@@ -20,6 +20,7 @@ execfile("Artificial_diffusion.py")
 execfile("advectionTVD.py")
 execfile("SemiLagrangian.py")
 execfile("advectionTVD.py")
+execfile("Warming and Beam.py")
 """
 runfile("advectionBTBS.py")
 runfile("Advection_FTBS.py")
@@ -30,6 +31,7 @@ runfile("initialConditions.py")
 runfile("Artificial_diffusion.py")
 runfile("advectionTVD.py")
 runfile("SemiLagrangian.py")
+runfile("Warming and Beam.py")
 """
 
 def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, k=2e-5, \
@@ -78,8 +80,8 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, k=2e-5, \
 
     # diffusion using various diffusion schemes
     phiTVD = TVD(phiOld.copy(), c, nt, u)
-    phiArt_diff2 = Artificial_diffusion2(phiOld.copy(), c, nt, dx, dt, d)
-    phiArt_diff4 = Artificial_diffusion4(phiOld.copy(), c, nt, dx, dt, d)
+    phiArt_diff2 = Artificial_diffusion2(phiOld.copy(), c, nt, dx, dt, k)
+    phiArt_diff4 = Artificial_diffusion4(phiOld.copy(), c, nt, dx, dt, k)
     phiSemiLag = SemiLag(phiOld.copy(), c, nt, u, dt)
     phiFTCSWB = FTCSWB(phiOld.copy(), c, nt)
     phiBTBS = BTBS(phiOld.copy(), c, nt)
@@ -93,8 +95,8 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, k=2e-5, \
     
 
     # calculate and print out error norms
-    L2errScheme = L2ErrorNorm(phiScheme, phiAnalytic)
-    print(scheme.__name__ + "L2 error norm = ", L2errScheme)
+    L2errFTCS = L2ErrorNorm(phiFTCS, phiAnalytic)
+    print("L2 error norm for FTCS = ", L2errFTCS)
     
     
     # plot the solutions
@@ -108,6 +110,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, k=2e-5, \
              linewidth=2)
     plt.plot(x, phiCTCS, label=CTCS, color='blue')
     plt.plot(x, phiFTBS, label=FTBS, color='red')
+    plt.plot(x, phiTVD, label = TVD, color = 'orange')
     plt.axhline(0, linestyle=':', color='black')
     plt.xlim([0,1])
     plt.ylim([-1,2])
