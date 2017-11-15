@@ -16,8 +16,9 @@ execfile("advectionFTCS.py")
 execfile("advectionCTCS.py")
 execfile("diagnostics.py")
 execfile("initialConditions.py")
+execfile("Artificial_diffusion.py")
 execfile("advectionTVD.py")
-
+execfile("SemiLagrangian.py")
 """
 runfile("advectionBTBS.py")
 runfile("Advection_FTBS.py")
@@ -25,11 +26,13 @@ runfile("advectionFTCS.py")
 runfile("advectionCTCS.py")
 runfile("diagnostics.py")
 runfile("initialConditions.py")
+runfile("Artificial_diffusion.py")
 runfile("advectionTVD.py")
+runfile("SemiLagrangian.py")
 """
 def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
          squareWaveMin = 0.0, squareWaveMax = 0.5, \
-         func = cosine, name_fig='attempt'):
+
     """
     Advect an initial function between squareWaveMin and squareWaveMax on a 
     domain between x = xmin and x = xmax split over nx spatial steps 
@@ -38,14 +41,13 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     initialConditions.py. These can be commented out in the code below as
     required.
     """
-    
-    
+        
     # code for fixed c, nt and nx (modification is needed also in the main 
     # arguments) changing dt so that T remains the same, then calculating the
     # courant number c. All simulations are of the same duration.
     
     # default parameters set in the function arguments
-    dx = (xmax - xmin)/(nx-1)
+    dx = (xmax - xmin)/nx
     dt = T/nt                  # time step imposing correct time length T
     c = dt*u/dx                #calculating c now we have dt
    
@@ -61,23 +63,27 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     #print('x = ', x)
     
     #initial conditions (Each line is a different initial condition)
-    
+    #phiOld = squareWave(x, squareWaveMin, squareWaveMax)
     phiOld = func(x,squareWaveMin, squareWaveMax)
     
     # analytic solution of the advection equation (in domain [0,1) )
-    #using modulo to keep the solution in the domain
+    # using modulo to keep the solution in the domain
    
     phiAnalytic = func(x - u * T,squareWaveMin,squareWaveMax)
     
     # diffusion using various diffusion schemes
     phiTVD = TVD(phiOld.copy(), c, nt, u)
-    phiArtDiff = ArtDiff(phiOld.copy(), c, nt, d)
-    phi = (phiOld.copy(), c, nt, u, dt)
+    phiArt_diff2 = ArtificialDiffusion2(phiOld.copy(), c, nt, dx, dt, d)
+    phiArt_diff4 = ArtificialDiffusion4(phiOld.copy(), c, nt, dx, dt, d)
+    phiSemiLag = SemiLag(phiOld.copy(), c, nt, u, dt)
     phiFTCSWB = FTCSWB(phiOld.copy(), c, nt)
     phiBTBS = BTBS(phiOld.copy(), c, nt)
     phiCTCS = CTCS(phiOld.copy(), c, nt)
     phiFTCS = FTCS(phiOld.copy(), c, nt)
     phiFTBS = FTBS(phiOld.copy(), c, nt)
+    
+    print("d_2 is ", k*dt/dx**2)
+    print("d_4 is ", k*dt/dx**4)
     # calculate and print out error norms
     L2errScheme = L2ErrorNorm(phiScheme, phiAnalytic)
     print(scheme.__name__ + "L2 error norm = ", L2errScheme)
@@ -92,10 +98,11 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     plt.plot(x, phiOld, label='Initial', color='black')
     plt.plot(x, phiAnalytic, label='Analytic', color='black', linestyle='--', \
              linewidth=2)
-    plt.plot(x, phiFTCS, label=FTCS, color='blue')
+    plt.plot(x, phiCTCS, label=CTCS, color='blue')
+    plt.plot(x, phiFTBS, label=FTBS, color='red')
     plt.axhline(0, linestyle=':', color='black')
     plt.xlim([0,1])
-    plt.ylim([0,2])
+    plt.ylim([-1,2])
     plt.legend()
     plt.xlabel('$x$')
     plt.title("dt = {:.5f}, c = {:.3f}".format(dt, c))
@@ -123,7 +130,10 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     plt.title("t = {:.2f}, d = {:.2f}".format(nt*dt, d))
     plt.savefig('Plots/' + name_fig + '(t=' + str(int(nt*dt)) + ')_errors.pdf')
     """
+
     return x
+
+
 
 
 
