@@ -20,11 +20,11 @@ def SemiLag(phiOld, c, nt, u, dt):
     #New time-step array for phi
     phi = phiOld.copy()
     
-    for it in xrange(nt):
-        for j in xrange(0, nx):
-            k = np.floor(j - c)
+    for it in range(nt):
+        for j in range(0, nx):  # I've just changed xrange to range
+            k = int(j - c)      # and np.floor to int
             beta = j - k - c
-            jd = j - u*dt
+            jd = j - u*dt  
             
             #Cubic Lagrange interpolation
             phiOld[jd] = -1/6.*beta*(1 - beta)*(2 - beta)*phiOld[(k-1)%nx] \

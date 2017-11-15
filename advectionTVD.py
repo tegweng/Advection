@@ -31,11 +31,11 @@ def TVD(phiOld, c, nt, u):
         raise TypeError('Argument phiOld to TVD must be a numpy array')
         
     #time loop
-    for it in xrange(nt):
+    for it in range(nt):
         #calculating the spatial points at each time step
         phiTVD = flux(phiOld.copy(), c, u)
         
-        for i in xrange(1,nx):
+        for i in range(1,nx):
         #calculating phi at n+1
             
             phi[i] = phiOld[i] - c * (phiTVD[i] - phiTVD[i-1])
@@ -67,7 +67,7 @@ def flux(phiOld, c, u):
     phiTVD = np.zeros(nx)
     
     #Loop over spatial coordinates
-    for i in xrange(0,nx):
+    for i in range(0,nx):
         #Lax-Wendroff as the high-order flux
         phiH[i] = 0.5 * (1 + c) * phiOld[i] + 0.5 * (1 - c) * phiOld[(i+1)%nx]
     
