@@ -2,7 +2,7 @@
 """
 Created on Tue Nov 07 14:08:55 2017
 
-@author: 25803263
+@author: 25825273
 """
 
 # BTBS scheme for simulating advection for outer code advection.py
@@ -15,7 +15,7 @@ import scipy.linalg as la
 
 
 def BTCS(phi, c, nt):
-    "Diffusion of profile in phi using BTBS using the\
+    "Diffusion of profile in phi using BTCS using the\
     Courant number, c, assuming fixed value boundary conditions"
     
     nx = len(phi)
