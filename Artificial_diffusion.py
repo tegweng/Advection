@@ -42,6 +42,11 @@ def BTCS(phi, c, nt):
 def Artificial_diffusion2(phiOld, c, nt, dx, dt, k):
 
     """
+    Scheme for solving linear advection equation with an added artificial
+    diffusion
+          DΦ
+          -- - k*del^2(Φ) = 0       where D/Dt is the material derivative
+          Dt
     id 25825273
     """
 
@@ -104,6 +109,11 @@ def Artificial_diffusion2(phiOld, c, nt, dx, dt, k):
 def Artificial_diffusion4(phiOld, c, nt, dx, dt, k):
 
     """
+    Scheme for solving linear advection equation with an added artificial
+    diffusion +k*del^4(phi).
+          DΦ
+          -- + k*del^4(Φ) = 0       where D/Dt is the material derivative
+          Dt
     id 25825273
     """
 
