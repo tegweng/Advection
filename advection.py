@@ -19,6 +19,7 @@ execfile("initialConditions.py")
 execfile("Artificial_diffusion.py")
 execfile("advectionTVD.py")
 execfile("SemiLagrangian.py")
+execfile("advectionTVD.py")
 """
 runfile("advectionBTBS.py")
 runfile("Advection_FTBS.py")
@@ -26,12 +27,14 @@ runfile("advectionFTCS.py")
 runfile("advectionCTCS.py")
 runfile("diagnostics.py")
 runfile("initialConditions.py")
+<<<<<<< HEAD
 runfile("Artificial_diffusion.py")
 runfile("advectionTVD.py")
 runfile("SemiLagrangian.py")
 """
 def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
          squareWaveMin = 0.0, squareWaveMax = 0.5, \
+         func = cosine, name_fig='attempt'):
 
     """
     Advect an initial function between squareWaveMin and squareWaveMax on a 
@@ -63,7 +66,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     #print('x = ', x)
     
     #initial conditions (Each line is a different initial condition)
-    #phiOld = squareWave(x, squareWaveMin, squareWaveMax)
+    
     phiOld = func(x,squareWaveMin, squareWaveMax)
     
     # analytic solution of the advection equation (in domain [0,1) )
@@ -71,6 +74,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
    
     phiAnalytic = func(x - u * T,squareWaveMin,squareWaveMax)
     
+
     # diffusion using various diffusion schemes
     phiTVD = TVD(phiOld.copy(), c, nt, u)
     phiArt_diff2 = ArtificialDiffusion2(phiOld.copy(), c, nt, dx, dt, d)
@@ -84,6 +88,9 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
     
     print("d_2 is ", k*dt/dx**2)
     print("d_4 is ", k*dt/dx**4)
+
+    
+
     # calculate and print out error norms
     L2errScheme = L2ErrorNorm(phiScheme, phiAnalytic)
     print(scheme.__name__ + "L2 error norm = ", L2errScheme)
