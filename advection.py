@@ -9,19 +9,17 @@ import matplotlib.pyplot as plt
 
 # read in all the linear advection schemes, initial conditions and other
 # code associated with this application (use with runfile if exec not supported)
-"""
+
 execfile("advectionBTBS.py")
 execfile("Advection_FTBS.py")
 execfile("advectionFTCS.py")
 execfile("advectionCTCS.py")
 execfile("diagnostics.py")
 execfile("initialConditions.py")
-<<<<<<< HEAD
 execfile("Artificial_diffusion.py")
-=======
 execfile("advectionTVD.py")
->>>>>>> 126572a51adc85f94c5b43b191a72e44cf19eae2
-
+execfile("SemiLagrangian.py")
+execfile("advectionTVD.py")
 """
 runfile("advectionBTBS.py")
 runfile("Advection_FTBS.py")
@@ -29,16 +27,15 @@ runfile("advectionFTCS.py")
 runfile("advectionCTCS.py")
 runfile("diagnostics.py")
 runfile("initialConditions.py")
-<<<<<<< HEAD
 runfile("Artificial_diffusion.py")
-
-=======
 runfile("advectionTVD.py")
->>>>>>> 126572a51adc85f94c5b43b191a72e44cf19eae2
+runfile("SemiLagrangian.py")
+"""
 
 def main(xmin = 0., xmax = 1., nx = 40, T = 0.125, nt = 40, u = 1, k=2e-5, \
          squareWaveMin = 0.0, squareWaveMax = 0.5, scheme = BTBS, \
          func = cosine, name_fig='attempt'):
+
     """
     Advect an initial function between squareWaveMin and squareWaveMax on a 
     domain between x = xmin and x = xmax split over nx spatial steps 
@@ -47,8 +44,7 @@ def main(xmin = 0., xmax = 1., nx = 40, T = 0.125, nt = 40, u = 1, k=2e-5, \
     initialConditions.py. These can be commented out in the code below as
     required.
     """
-    
-    
+        
     # code for fixed c, nt and nx (modification is needed also in the main 
     # arguments) changing dt so that T remains the same, then calculating the
     # courant number c. All simulations are of the same duration.
@@ -78,25 +74,40 @@ def main(xmin = 0., xmax = 1., nx = 40, T = 0.125, nt = 40, u = 1, k=2e-5, \
    
     phiAnalytic = func(x - u * T,squareWaveMin,squareWaveMax)
     
-<<<<<<< HEAD
+
     if ((scheme==Artificial_diffusion2) or (scheme==Artificial_diffusion4)):
         phiScheme = scheme(phiOld.copy(), c, nt, dx, dt, k)
         print("d_2 is ", k*dt/dx**2)
         print("d_4 is ", k*dt/dx**4)
-    else:
-        # diffusion using various diffusion schemes
-=======
-    # diffusion using various diffusion schemes
+        
     if scheme == TVD:
         phiScheme = scheme(phiOld.copy(), c, nt, u)
+    
     if scheme == ArtDiff:
         phiScheme = scheme(phiOld.copy(), c, nt, d)
+    
     if scheme == SemiLag:
         phiScheme = scheme(phiOld.copy(), c, nt, u, dt)
-    else:
->>>>>>> 126572a51adc85f94c5b43b191a72e44cf19eae2
-        phiScheme = scheme(phiOld.copy(), c, nt)
     
+    else:
+        # diffusion using various diffusion schemes
+        phiScheme = scheme(phiOld.copy(), c, nt)
+
+    # diffusion using various diffusion schemes
+    phiTVD = TVD(phiOld.copy(), c, nt, u)
+    phiArt_diff2 = ArtificialDiffusion2(phiOld.copy(), c, nt, dx, dt, d)
+    phiArt_diff4 = ArtificialDiffusion4(phiOld.copy(), c, nt, dx, dt, d)
+    phiSemiLag = SemiLag(phiOld.copy(), c, nt, u, dt)
+    phiFTCSWB = FTCSWB(phiOld.copy(), c, nt)
+    phiBTBS = BTBS(phiOld.copy(), c, nt)
+    phiCTCS = CTCS(phiOld.copy(), c, nt)
+    phiFTCS = FTCS(phiOld.copy(), c, nt)
+    phiFTBS = FTBS(phiOld.copy(), c, nt)
+    
+    print("d_2 is ", k*dt/dx**2)
+    print("d_4 is ", k*dt/dx**4)
+    
+
     # calculate and print out error norms
     L2errScheme = L2ErrorNorm(phiScheme, phiAnalytic)
     print(scheme.__name__ + "L2 error norm = ", L2errScheme)
@@ -111,14 +122,15 @@ def main(xmin = 0., xmax = 1., nx = 40, T = 0.125, nt = 40, u = 1, k=2e-5, \
     plt.plot(x, phiOld, label='Initial', color='black')
     plt.plot(x, phiAnalytic, label='Analytic', color='black', linestyle='--', \
              linewidth=2)
-    plt.plot(x, phiScheme, label=scheme.__name__, color='blue')
+    plt.plot(x, phiCTCS, label=CTCS, color='blue')
+    plt.plot(x, phiFTBS, label=FTBS, color='red')
     plt.axhline(0, linestyle=':', color='black')
     plt.xlim([0,1])
     plt.ylim([-1,2])
     plt.legend()
     plt.xlabel('$x$')
     plt.title("dt = {:.5f}, c = {:.3f}".format(dt, c))
-    plt.savefig(name_fig + '(c=' + str(c) +')' + scheme.__name__+ '_' + \
+    plt.savefig(name_fig + '(c=' + str(c) +')' + '_' + \
                 func.__name__ + '.pdf')
     """
     # plot the errors
@@ -142,8 +154,11 @@ def main(xmin = 0., xmax = 1., nx = 40, T = 0.125, nt = 40, u = 1, k=2e-5, \
     plt.title("t = {:.2f}, d = {:.2f}".format(nt*dt, d))
     plt.savefig('Plots/' + name_fig + '(t=' + str(int(nt*dt)) + ')_errors.pdf')
     """
-    
-    #return x, phiScheme, phiAnalytic
+
+    return x
+
+
+
 
 
 #def nrms_error_graph(N,d_fixed):
