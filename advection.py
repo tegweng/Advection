@@ -117,7 +117,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, k=2e-5, \
     plt.legend()
     plt.xlabel('$x$')
     plt.title("dt = {:.5f}, c = {:.3f}".format(dt, c))
-    plt.savefig(name_fig + '(c=' + str(c) +')' + '_' + \
+    plt.savefig('Plots/' + name_fig + '_' + \
                 func.__name__ + '.pdf')
     """
     # plot the errors
