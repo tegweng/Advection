@@ -47,18 +47,36 @@ def Artificial_diffusion2(phiOld, c, nt, dx, dt, k):
 
     # arguments test
     if nt<=0:
-        raise ValueError('Error in CTCS: Argument nt to CTCS should be > 0')
+        raise ValueError('Error in Artificial_diffusion2:\
+                         Argument nt to Artificial_diffusion2 should be > 0')
     if not(int(nt) == nt):
-        raise ValueError('Error in CTCS:\
-                         Argument nt to CTCS should be an integer')
+        raise ValueError('Error in Artificial_diffusion2:\
+                         Argument nt to Artificial_diffusion2 should be \
+                         an integer')
     if not(isinstance(float(c),float) and float(c) > 0):
-        raise TypeError('Error in CTCS:\
-                        Argument c to CTCS should be a positive float')
+        raise TypeError('Error in Artificial_diffusion2:\
+                        Argument c to Artificial_diffusion2 should be\
+                        a positive float')
+    if not(isinstance(float(dx),float) and float(dx) > 0):
+        raise TypeError('Error in Artificial_diffusion2:\
+                        Argument dx to Artificial_diffusion2 should be\
+                        a positive float')
+    if not(isinstance(float(dt),float) and float(dt) > 0):
+        raise TypeError('Error in Artificial_diffusion2:\
+                        Argument dt to Artificial_diffusion2 should be\
+                        a positive float')
+    if not(isinstance(float(k),float) and float(k) > 0):
+        raise TypeError('Error in Artificial_diffusion2:\
+                        Argument k to Artificial_diffusion2 should be\
+                        a positive float')
     if not(isinstance(phiOld,np.ndarray)):
-        raise TypeError('Error in CTCS:\
-                        Argument phiOld to CTCS should be an array')
+        raise TypeError('Error in Artificial_diffusion2:\
+                        Argument phiOld to Artificial_diffusion2 should be\
+                        an array')
 
     nx = len(phiOld)
+    
+    # defining non-dimensional diffusivity
     d=k*dt/dx**2
     
     # new time-step array for phi
@@ -91,18 +109,36 @@ def Artificial_diffusion4(phiOld, c, nt, dx, dt, k):
 
     # arguments test
     if nt<=0:
-        raise ValueError('Error in CTCS: Argument nt to CTCS should be > 0')
+        raise ValueError('Error in Artificial_diffusion4:\
+                         Argument nt to Artificial_diffusion4 should be > 0')
     if not(int(nt) == nt):
-        raise ValueError('Error in CTCS:\
-                         Argument nt to CTCS should be an integer')
+        raise ValueError('Error in Artificial_diffusion4:\
+                         Argument nt to Artificial_diffusion4 should be \
+                         an integer')
     if not(isinstance(float(c),float) and float(c) > 0):
-        raise TypeError('Error in CTCS:\
-                        Argument c to CTCS should be a positive float')
+        raise TypeError('Error in Artificial_diffusion4:\
+                        Argument c to Artificial_diffusion4 should be\
+                        a positive float')
+    if not(isinstance(float(dx),float) and float(dx) > 0):
+        raise TypeError('Error in Artificial_diffusion4:\
+                        Argument dx to Artificial_diffusion4 should be\
+                        a positive float')
+    if not(isinstance(float(dt),float) and float(dt) > 0):
+        raise TypeError('Error in Artificial_diffusion4:\
+                        Argument dt to Artificial_diffusion4 should be\
+                        a positive float')
+    if not(isinstance(float(k),float) and float(k) > 0):
+        raise TypeError('Error in Artificial_diffusion4:\
+                        Argument k to Artificial_diffusion4 should be\
+                        a positive float')
     if not(isinstance(phiOld,np.ndarray)):
-        raise TypeError('Error in CTCS:\
-                        Argument phiOld to CTCS should be an array')
-
+        raise TypeError('Error in Artificial_diffusion4:\
+                        Argument phiOld to Artificial_diffusion4 should be\
+                        an array')
+    
     nx = len(phiOld)
+    
+    # defining non-dimensional diffusivity
     d=k*dt/dx**4
 
     # new time-step array for phi
