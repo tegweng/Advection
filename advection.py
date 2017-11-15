@@ -31,9 +31,14 @@ runfile("Artificial_diffusion.py")
 runfile("advectionTVD.py")
 runfile("SemiLagrangian.py")
 """
+<<<<<<< HEAD
 
 def main(xmin = 0., xmax = 1., nx = 40, T = 0.125, nt = 40, u = 1, k=2e-5, \
          squareWaveMin = 0.0, squareWaveMax = 0.5, scheme = BTBS, \
+=======
+def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, \
+         squareWaveMin = 0.0, squareWaveMax = 0.5, \
+>>>>>>> 3fc170112df21ea4ca7c5444d439df28bdede661
          func = cosine, name_fig='attempt'):
 
     """
@@ -75,6 +80,7 @@ def main(xmin = 0., xmax = 1., nx = 40, T = 0.125, nt = 40, u = 1, k=2e-5, \
     phiAnalytic = func(x - u * T,squareWaveMin,squareWaveMax)
     
 
+<<<<<<< HEAD
     if ((scheme==Artificial_diffusion2) or (scheme==Artificial_diffusion4)):
         phiScheme = scheme(phiOld.copy(), c, nt, dx, dt, k)
         print("d_2 is ", k*dt/dx**2)
@@ -97,6 +103,12 @@ def main(xmin = 0., xmax = 1., nx = 40, T = 0.125, nt = 40, u = 1, k=2e-5, \
     phiTVD = TVD(phiOld.copy(), c, nt, u)
     phiArt_diff2 = ArtificialDiffusion2(phiOld.copy(), c, nt, dx, dt, d)
     phiArt_diff4 = ArtificialDiffusion4(phiOld.copy(), c, nt, dx, dt, d)
+=======
+    # diffusion using various diffusion schemes
+    phiTVD = TVD(phiOld.copy(), c, nt, u)
+    phiArt_diff2 = Artificial_diffusion2(phiOld.copy(), c, nt, dx, dt, d)
+    phiArt_diff4 = Artificial_diffusion4(phiOld.copy(), c, nt, dx, dt, d)
+>>>>>>> 3fc170112df21ea4ca7c5444d439df28bdede661
     phiSemiLag = SemiLag(phiOld.copy(), c, nt, u, dt)
     phiFTCSWB = FTCSWB(phiOld.copy(), c, nt)
     phiBTBS = BTBS(phiOld.copy(), c, nt)
@@ -106,6 +118,10 @@ def main(xmin = 0., xmax = 1., nx = 40, T = 0.125, nt = 40, u = 1, k=2e-5, \
     
     print("d_2 is ", k*dt/dx**2)
     print("d_4 is ", k*dt/dx**4)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3fc170112df21ea4ca7c5444d439df28bdede661
     
 
     # calculate and print out error norms
