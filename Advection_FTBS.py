@@ -1,4 +1,4 @@
-# Student ID: fr818629
+# Student ID: 25818629
 # FTBS numerical scheme used to solve the advection equation
 
 from __future__ import absolute_import, division, print_function
@@ -10,7 +10,15 @@ def FTBS(phiOld, c, nt):
     Advection of profile in phiOld using the Courant number, c.
     '''
     
-    #Number of space steps is the length of the orifginal phi
+    #Error catching
+    if nt <= 0:
+        raise ValueError('Error in FTBS: Argument nt should be > 0')
+    if not(int(nt) == nt):
+        raise ValueError('Error in FTBS: Argument nt should be an integer')
+    if not(isinstance(phiOld,np.ndarray)):
+        raise TypeError('Error in FTBS: Argument phiOld should be an array')
+        
+    #Number of space steps is the length of the original phi
     nx = len(phiOld)
     
     #new time-step array for phi
