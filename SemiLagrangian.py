@@ -37,7 +37,7 @@ def SemiLag(phiOld, c, nt, u, dt):
 
             #Simple interpolation
             #phiOld[jd] = phiOld[k] + beta*(phiOld[(k+1)%nx] - phiOld[k])
-            phi[j] = phiOld[jd]
+            phi[j] = phiOld[j]
             
         phiOld = phi.copy()
         
