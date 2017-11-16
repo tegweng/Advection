@@ -1,51 +1,27 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Nov 07 14:08:55 2017
-
+Code for implementing artificial diffusion into the linear advection scheme.
+The two functions defined
 @author: 25825273
 """
-
-# BTBS scheme for simulating advection for outer code advection.py
 
 from __future__ import absolute_import, division, print_function
 import numpy as np
 
-# The linear algebra package for BTBS (for solving the matrix equation)
-import scipy.linalg as la
 
 
-def BTCS(phi, c, nt):
-    "Diffusion of profile in phi using BTCS using the\
-    Courant number, c, assuming fixed value boundary conditions"
-    
-    nx = len(phi)
-    
-    #array representing BTBS
-    M=np.zeros([nx,nx])
-    
-  
-    #setting initial 
-    for i in range(0,nx):
-        M[i,(i-1)%nx] = -c/2
-        M[i,i] = 1
-        M[i,(i+1)%nx] = c/2
-    
-    #BTBS for all time steps
-    
-    for it in range(int(nt)):
-
-        #as have to do the following for all time steps it is in the for loop
-        phi = la.solve(M, phi)
-    
-    return phi
-
-def Artificial_diffusion2(phiOld, c, nt, dx, dt, k):
+def Artificial_diffusion(phiOld, c, nt, dx, dt, d, orderAD=2):
 
     """
     Scheme for solving linear advection equation with an added artificial
-    diffusion
+    diffusion of order (orderAD) which can be 2nd (default),
           DΦ
-          -- - k*del^2(Φ) = 0       where D/Dt is the material derivative
+          -- - k*del^2(Φ) = 0       where D/Dt is the material derivative,
+          Dt
+    or 4th,
+          DΦ
+          -- + k*del^4(Φ) = 0
           Dt
     id 25825273
     """
@@ -53,133 +29,86 @@ def Artificial_diffusion2(phiOld, c, nt, dx, dt, k):
     # arguments test
     if nt<=0:
         raise ValueError('Error in Artificial_diffusion2:\
-                         Argument nt to Artificial_diffusion2 should be > 0')
-    if not(int(nt) == nt):
-        raise ValueError('Error in Artificial_diffusion2:\
-                         Argument nt to Artificial_diffusion2 should be \
-                         an integer')
+                Argument nt to Artificial_diffusion2 should be > 0')
+    if not(isinstance(nt,int)):
+        raise TypeError('Error in Artificial_diffusion2:\
+                Argument nt to Artificial_diffusion2 should be an integer')
     if not(isinstance(float(c),float) and float(c) > 0):
         raise TypeError('Error in Artificial_diffusion2:\
-                        Argument c to Artificial_diffusion2 should be\
-                        a positive float')
+                Argument c to Artificial_diffusion2 should be a positive float')
     if not(isinstance(float(dx),float) and float(dx) > 0):
         raise TypeError('Error in Artificial_diffusion2:\
-                        Argument dx to Artificial_diffusion2 should be\
-                        a positive float')
+                Argument dx to Artificial_diffusion2 should be a positive float')
     if not(isinstance(float(dt),float) and float(dt) > 0):
         raise TypeError('Error in Artificial_diffusion2:\
-                        Argument dt to Artificial_diffusion2 should be\
-                        a positive float')
-    if not(isinstance(float(k),float) and float(k) > 0):
+                Argument dt to Artificial_diffusion2 should be a positive float')
+    if not(isinstance(float(d),float) and float(d) > 0):
         raise TypeError('Error in Artificial_diffusion2:\
-                        Argument k to Artificial_diffusion2 should be\
-                        a positive float')
+                Argument d to Artificial_diffusion2 should be a positive float')
     if not(isinstance(phiOld,np.ndarray)):
         raise TypeError('Error in Artificial_diffusion2:\
-                        Argument phiOld to Artificial_diffusion2 should be\
-                        an array')
+                Argument phiOld to Artificial_diffusion2 should be an array')
 
     nx = len(phiOld)
     
-    # defining non-dimensional diffusivity
-    d=k*dt/dx**2
+    # calculating value of dimensional diffusivity for informative purposes
+    k = d*dx**orderAD/dt
     
     # new time-step array for phi
     phiNew = phiOld.copy()
     phiCurrent = phiOld.copy()
-
-    # FTCS for both advection and diffusion to compute the first time step
-    for j in range(0,nx):
-        phiCurrent[j] = phiOld[j] - c*0.5*(phiOld[(j+1)%nx] - phiOld[(j-1)%nx])\
-                        + d*(phiOld[(j+1)%nx] - 2*phiOld[j] + phiOld[(j-1)%nx])
-    # CTCS for advection, FTCS for diffusion
-    for it in range(nt):
-
-        # spatial points
-        for j in range(0,nx):
-            phiNew[j] = phiOld[j] - \
-                        c*(phiCurrent[(j+1)%nx] - phiCurrent[(j-1)%nx]) + \
-                        2*d*(phiOld[(j+1)%nx] - 2*phiOld[j] + phiOld[(j-1)%nx])
-        # output to phiOld for the next time-step
-        phiOld = phiCurrent.copy()
-        phiCurrent = phiNew.copy()
-
-    return phiNew
-
-def Artificial_diffusion4(phiOld, c, nt, dx, dt, k):
-
-    """
-    Scheme for solving linear advection equation with an added artificial
-    diffusion +k*del^4(phi).
-          DΦ
-          -- + k*del^4(Φ) = 0       where D/Dt is the material derivative
-          Dt
-    id 25825273
-    """
-
-    # arguments test
-    if nt<=0:
-        raise ValueError('Error in Artificial_diffusion4:\
-                         Argument nt to Artificial_diffusion4 should be > 0')
-    if not(int(nt) == nt):
-        raise ValueError('Error in Artificial_diffusion4:\
-                         Argument nt to Artificial_diffusion4 should be \
-                         an integer')
-    if not(isinstance(float(c),float) and float(c) > 0):
-        raise TypeError('Error in Artificial_diffusion4:\
-                        Argument c to Artificial_diffusion4 should be\
-                        a positive float')
-    if not(isinstance(float(dx),float) and float(dx) > 0):
-        raise TypeError('Error in Artificial_diffusion4:\
-                        Argument dx to Artificial_diffusion4 should be\
-                        a positive float')
-    if not(isinstance(float(dt),float) and float(dt) > 0):
-        raise TypeError('Error in Artificial_diffusion4:\
-                        Argument dt to Artificial_diffusion4 should be\
-                        a positive float')
-    if not(isinstance(float(k),float) and float(k) > 0):
-        raise TypeError('Error in Artificial_diffusion4:\
-                        Argument k to Artificial_diffusion4 should be\
-                        a positive float')
-    if not(isinstance(phiOld,np.ndarray)):
-        raise TypeError('Error in Artificial_diffusion4:\
-                        Argument phiOld to Artificial_diffusion4 should be\
-                        an array')
     
-    nx = len(phiOld)
-    
-    # defining non-dimensional diffusivity
-    d=k*dt/dx**4
-
-    # new time-step array for phi
-    phiNew = phiOld.copy()
-    phiCurrent = phiOld.copy()
-
-    # FTCS for both advection and diffusion to compute the first time step
-    for j in range(0,nx):
-        phiCurrent[j] = phiOld[j] - c*0.5*(phiOld[(j+1)%nx] - phiOld[(j-1)%nx])\
-        - d*(phiOld[(j+2)%nx] - 4*phiOld[(j+1)%nx] + 6*phiOld[j] -\
-                    4*phiOld[(j-1)%nx] + phiOld[(j-2)%nx])
-    # CTCS for advection, FTCS for diffusion
-    for it in range(nt):
-
-        # spatial points
+    if (orderAD==2):
+        # FTCS for both advection and diffusion to compute the first time step
         for j in range(0,nx):
-            phiNew[j] = phiOld[j] - \
-                        c*(phiCurrent[(j+1)%nx] - phiCurrent[(j-1)%nx]) - \
-                        2*d*(phiOld[(j+2)%nx] - 4*phiOld[(j+1)%nx] + \
+            phiCurrent[j] = phiOld[j] - c*0.5*(phiOld[(j+1)%nx] - \
+                      phiOld[(j-1)%nx]) + d*(phiOld[(j+1)%nx] - 2*phiOld[j]\
+                             + phiOld[(j-1)%nx])
+        # CTCS for advection, FTCS for diffusion
+        for it in range(nt):
+            # spatial points
+            for j in range(0,nx):
+                phiNew[j] = phiOld[j] - \
+                c*(phiCurrent[(j+1)%nx] - phiCurrent[(j-1)%nx]) + \
+                2*d*(phiOld[(j+1)%nx] - 2*phiOld[j] + phiOld[(j-1)%nx])
+                # output to phiOld for the next time-step
+                phiOld = phiCurrent.copy()
+                phiCurrent = phiNew.copy()
+    
+    if (orderAD==4):
+        # FTCS for both advection and diffusion to compute the first time step
+        for j in range(0,nx):
+            phiCurrent[j] = phiOld[j] - c*0.5*(phiOld[(j+1)%nx]\
+                      - phiOld[(j-1)%nx]) - d*(phiOld[(j+2)%nx]\
+                               - 4*phiOld[(j+1)%nx] + 6*phiOld[j]\
+                               - 4*phiOld[(j-1)%nx] + phiOld[(j-2)%nx])
+        # CTCS for advection, FTCS for diffusion
+        for it in range(nt):
+            # spatial points
+            for j in range(0,nx):
+                phiNew[j] = phiOld[j] - \
+                c*(phiCurrent[(j+1)%nx] - phiCurrent[(j-1)%nx]) - \
+                2*d*(phiOld[(j+2)%nx] - 4*phiOld[(j+1)%nx] + \
                             6*phiOld[j] - 4*phiOld[(j-1)%nx] + phiOld[(j-2)%nx])
-        # output to phiOld for the next time-step
-        phiOld = phiCurrent.copy()
-        phiCurrent = phiNew.copy()
+                # output to phiOld for the next time-step
+                phiOld = phiCurrent.copy()
+                phiCurrent = phiNew.copy()
+    
+    if not((orderAD==2) or (orderAD==4)):
+        raise ValueError(\
+            'Error in Artificial_diffusion:\
+           Argument orderAD to Artificial_diffusion should be 2 or 4 (integer)')
 
-    return phiNew
+    return phiNew, k
 
 
-
-
-
-
+try:
+    Artificial_diffusion(np.zeros(6), 0.125, 40, 0.05, 0.05, 0.1, 1)
+except ValueError:
+    pass
+else:
+    print('Error in Artificial_diffusion:\
+          an error should be raised if orderAD is different from 2 or 4')
 
 
 
