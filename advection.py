@@ -78,7 +78,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, k=2e-5, \
     
 
 
-    # diffusion using various diffusion schemes
+    # advection using various diffusion schemes
     phiTVD = TVD(phiOld.copy(), c, nt, u)
     phiArt_diff2 = Artificial_diffusion2(phiOld.copy(), c, nt, dx, dt, k)
     phiArt_diff4 = Artificial_diffusion4(phiOld.copy(), c, nt, dx, dt, k)
