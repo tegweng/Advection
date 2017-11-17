@@ -16,7 +16,7 @@ def FTCS(phiOld, c, nt):
     phi = phiOld.copy()
     
     for j in range(int(nt)):
-        for i in range(nx-1):
+        for i in range(0,nx):
             phi[i] = phiOld[i] - 0.5*c*(phiOld[i+1] - phiOld[(i-1)%nx])
         #assign the calculated results of next time step to phiOld
         phiOld = phi.copy()
