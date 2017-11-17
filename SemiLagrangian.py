@@ -1,3 +1,5 @@
+
+
 # Student ID: 25818629
 # Semi-Lagrangian numerical scheme used to solve the advection equation
 
@@ -12,11 +14,11 @@ def SemiLag(phiOld, c, nt, u, dt):
     
      #Error catching
     if nt <= 0:
-        raise ValueError('Error in FTBS: Argument nt should be > 0')
+        raise ValueError('Error in SemiLag: Argument nt should be > 0')
     if not(int(nt) == nt):
-        raise ValueError('Error in FTBS: Argument nt should be an integer')
+        raise ValueError('Error in SemiLag: Argument nt should be an integer')
     if not(isinstance(phiOld,np.ndarray)):
-        raise TypeError('Error in FTBS: Argument phiOld should be an array')
+        raise TypeError('Error in SemiLag: Argument phiOld should be an array')
     
     #Number of space steps is the length of the original phi
     nx = len(phiOld)   
@@ -42,3 +44,25 @@ def SemiLag(phiOld, c, nt, u, dt):
         phiOld = phi.copy()
         
     return phi
+
+try:
+    SemiLag(np.zeros(8), 1, 0, 1, 0.5)
+except ValueError:
+    pass
+else:
+    print('Error in SemiLag, error should be raised if nt <= 0')
+    
+try:
+    SemiLag(np.zeros(8), 1, 0.2, 1, 0.5)
+except ValueError:
+    pass
+else:
+    print('Error in SemiLag, error should be raised if nt is not an integer')
+
+try:
+    SemiLag(0, 1, 2, 1, 0.5)
+except TypeError:
+    pass
+else:
+    print('Error in SemiLag, error should be raised if phiOld is not a numpy \
+          array')
