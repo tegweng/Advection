@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 # read in all the linear advection schemes, initial conditions and other
 # code associated with this application (use with runfile if exec not supported)
-"""
+
 execfile("advectionBTBS.py")
 execfile("Advection_FTBS.py")
 execfile("advectionFTCS.py")
@@ -32,11 +32,11 @@ runfile("Artificial_diffusion.py")
 runfile("advectionTVD.py")
 runfile("SemiLagrangian.py")
 runfile("Warming and Beam.py")
-
+"""
 
 def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d=0.1, \
          squareWaveMin = 0.0, squareWaveMax = 0.5, \
-         func = cosine, name_fig='attempt'):
+         func = squareWave, name_fig='attempt'):
 
     """
     Advect an initial function between squareWaveMin and squareWaveMax on a 
@@ -91,15 +91,9 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d=0.1, \
     
     print("d_2 is ", k*dt/dx**2)
     print("d_4 is ", k*dt/dx**4)
-
-    
-
-    # calculate and print out error norms
-    L2errFTCS = L2ErrorNorm(phiFTCS, phiAnalytic)
-    print("L2 error norm for FTCS = ", L2errFTCS)
     
     
-    # plot the solutions
+    # plot the solutions of the linear finite difference schemes 
     font = {'size' : 10}
     plt.rc('font', **font)
     plt.figure(1)
@@ -110,7 +104,8 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d=0.1, \
              linewidth=2)
     plt.plot(x, phiCTCS, label='CTCS', color='blue')
     plt.plot(x, phiFTBS, label='FTBS', color='red')
-    plt.plot(x, phiTVD, label = 'TVD', color = 'orange')
+    plt.plot(x, phiFTCS, label = 'FTCS', color = 'orange')
+    plt.plot(x, phiBTBS, label = 'BTBS', color = 'green')
     plt.axhline(0, linestyle=':', color='black')
     plt.xlim([0,1])
     plt.ylim([-1,2])
@@ -119,79 +114,4 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d=0.1, \
     plt.title("dt = {:.5f}, c = {:.3f}".format(dt, c))
     plt.savefig('Plots/' + name_fig + '_' + \
                 func.__name__ + '.pdf')
-    """
-    # plot the errors
-    plt.figure(2)
-    plt.clf()
-    plt.ion()
-    
-    
-    # defining the error vectors that are used in the graph and for evaluating
-    # the extremes (m) on the y-axis for plotting
-    errorFTCS = phiFTCS - phiAnalytic
-    errorBTCS = phiBTCS - phiAnalytic
-    m = max(abs(errorFTCS).max(), abs(errorBTCS).max())
-    
-    plt.plot(x, errorFTCS, label='Error FTCS', color='blue')
-    plt.plot(x, errorBTCS, label='Error BTCS', color='red')
-    plt.axhline(0, linestyle=':', color='black')
-    plt.ylim([-m,m])
-    plt.legend()
-    plt.xlabel('$x$')
-    plt.title("t = {:.2f}, d = {:.2f}".format(nt*dt, d))
-    plt.savefig('Plots/' + name_fig + '(t=' + str(int(nt*dt)) + ')_errors.pdf')
-    """
-
-    return x
-
-
-
-
-
-#def nrms_error_graph(N,d_fixed):
-    
-    """
-    Code for studying the order of convergence of the FTCS and BTCS schemes.
-    It must be used with main() working with fixed d and changeable dt,
-    preferably commenting the code for plotting the results of main, in order
-    to avoid the code to generate 2*N graphs, that is two for each iteration.
-    """
-    
-    # initializing the vector which stores the L2 Error Norm values
-    #vector = np.zeros((N,3))
-    #for it in range(N):
-    #    vector[it,:] = main(nx=21+it*50,d=d_fixed)
-    
-    # defining the vectors ued for calculating the order of convergence for both
-    # FTCS(n) and BTCS(m) schemes by computing the slope between points
-    #n = np.zeros(N-1)
-    #for i in range(N-1):
-    #    n[i] = (np.log(vector[i+1,1]) - np.log(vector[i,1]))/\
-    #            (np.log(vector[i+1,0]) - np.log(vector[i,0]))
-    
-    #m = np.zeros(N-1)
-    #for i in range(N-1):
-    #    m[i] = (np.log(vector[i+1,2]) - np.log(vector[i,2]))/\
-    #            (np.log(vector[i+1,0]) - np.log(vector[i,0]))
-    
-    # printing out the result by averaging the values stored in n, m
-    #print("Order of convergence: FTCS = {:.2f}, BTCS = {:.2f}".format(n.mean()\
-    #      ,m.mean()))
-    
-    # plotting the points onto a log-log graph
-    #font = {'size' : 10}
-    #plt.rc('font', **font)
-    #plt.figure(3)
-    #plt.clf()
-    #plt.ion()
-    #plt.loglog(vector[:,0].transpose(), vector[:,1].transpose(),'bx',\
-    #           label='FTCS (mean slope = {:.2f})'.format(n.mean()))
-    #plt.loglog(vector[:,0].transpose(), vector[:,2].transpose(),'ro',\
-    #           label='BTCS (mean.slope = {:.2f})'.format(m.mean()))
-    #plt.loglog(vector[:,0].transpose(),8*(vector[:,0].transpose())**2)
-    #plt.legend()
-    #plt.xlabel('$\Delta x$')
-    #plt.ylabel('$\ell_2$ Norm Error')
-    #plt.title('Log-log plot of $\ell_2$ Norm Error with d={:.1f}'.format(\
-    #          d_fixed))
-    #plt.savefig('Plots/L2errorPlot{}.pdf'.format(int(d_fixed*10)))
+   
