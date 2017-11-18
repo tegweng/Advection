@@ -98,33 +98,3 @@ def Artificial_diffusion(phiOld, c, nt, dx, dt, d, orderAD=2):
            Argument orderAD to Artificial_diffusion should be 2 or 4 (integer)')
 
     return phiNew, k
-
-
-try:
-    Artificial_diffusion(np.zeros(6), 0.125, 40, 0.05, 0.05, 0.1, 1)
-except ValueError:
-    pass
-else:
-    print('Error in Artificial_diffusion:\
-          an error should be raised if orderAD is different from 2 or 4')
-
-try:
-    Artificial_diffusion(np.zeros(6), 0.125, 40.5, 0.05, 0.05, 0.1, 2)
-except TypeError:
-    pass
-else:
-    print('Error in Artificial_diffusion:\
-          an error should be raised if nt is not an integer')
-
-try:
-    Artificial_diffusion([0,1,2], 0.125, 40, 0.05, 0.05, 0.1, 2)
-except TypeError:
-    pass
-else:
-    print('Error in Artificial_diffusion:\
-          an error should be raised if phiOld is not a numpy array')
-
-
-
-
-

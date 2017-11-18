@@ -45,36 +45,3 @@ def CTCS(phiOld, c, nt):
         phiCurrent = phiNew.copy()
         
     return phiNew
-
-
-try:
-    CTCS(np.zeros(6), 0.125, 40, 0.05, 0.05, 0.1, 1)
-except TypeError:
-    pass
-else:
-    print('Error in CTCS:\
-          an error should be raised if orderAD is different from 2 or 4')
-
-try:
-    CTCS(np.zeros(6), 0, 40)
-except TypeError:
-    pass
-else:
-    print('Error in CTCS:\
-          an error should be raised if c is less than or equal to zero')
-
-try:
-    CTCS([0,1,2], 0.125, 40)
-except TypeError:
-    pass
-else:
-    print('Error in CTCS:\
-          an error should be raised if phiOld is not a numpy array')
-
-
-
-
-
-
-
-

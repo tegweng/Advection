@@ -78,10 +78,11 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d=0.1, \
     
 
 
-    # advection using various diffusion schemes
+    # advection using various diffusion schemes (for Artificial_diffusion we are
+    # interested only in the first item of the tuple returned)
     phiTVD = TVD(phiOld.copy(), c, nt, u)
-    phiArt_diff2 = Artificial_diffusion(phiOld.copy(), c, nt, dx, dt, d, 2)
-    phiArt_diff4 = Artificial_diffusion(phiOld.copy(), c, nt, dx, dt, d, 4)
+    phiArt_diff2 = Artificial_diffusion(phiOld.copy(), c, nt, dx, dt, d, 2)[0]
+    phiArt_diff4 = Artificial_diffusion(phiOld.copy(), c, nt, dx, dt, d, 4)[0]
     phiSemiLag = SemiLag(phiOld.copy(), c, nt, u, dt)
     phiFTCSWB = FTCSWB(phiOld.copy(), c, nt)
     phiBTBS = BTBS(phiOld.copy(), c, nt)
