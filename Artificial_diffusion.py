@@ -2,7 +2,6 @@
 """
 Created on Tue Nov 07 14:08:55 2017
 Code for implementing artificial diffusion into the linear advection scheme.
-The two functions defined
 @author: 25825273
 """
 
@@ -23,31 +22,30 @@ def Artificial_diffusion(phiOld, c, nt, dx, dt, d, orderAD=2):
           DΦ
           -- + k*del^4(Φ) = 0
           Dt
+    The function returns the array for phi at time nt*dt and the value of the
+    diffusivity constant k (accordingly with the order of diffusivity selected)
     id 25825273
     """
 
     # arguments test
-    if nt<=0:
-        raise ValueError('Error in Artificial_diffusion2:\
-                Argument nt to Artificial_diffusion2 should be > 0')
     if not(isinstance(nt,int)):
-        raise TypeError('Error in Artificial_diffusion2:\
-                Argument nt to Artificial_diffusion2 should be an integer')
+        raise TypeError('Error in Artificial_diffusion:\
+                Argument nt to Artificial_diffusion should be an integer')
     if not(isinstance(float(c),float) and float(c) > 0):
-        raise TypeError('Error in Artificial_diffusion2:\
-                Argument c to Artificial_diffusion2 should be a positive float')
+        raise TypeError('Error in Artificial_diffusion:\
+                Argument c to Artificial_diffusion should be a positive float')
     if not(isinstance(float(dx),float) and float(dx) > 0):
-        raise TypeError('Error in Artificial_diffusion2:\
-                Argument dx to Artificial_diffusion2 should be a positive float')
+        raise TypeError('Error in Artificial_diffusion:\
+                Argument dx to Artificial_diffusion should be a positive float')
     if not(isinstance(float(dt),float) and float(dt) > 0):
-        raise TypeError('Error in Artificial_diffusion2:\
-                Argument dt to Artificial_diffusion2 should be a positive float')
+        raise TypeError('Error in Artificial_diffusion:\
+                Argument dt to Artificial_diffusion should be a positive float')
     if not(isinstance(float(d),float) and float(d) > 0):
-        raise TypeError('Error in Artificial_diffusion2:\
-                Argument d to Artificial_diffusion2 should be a positive float')
+        raise TypeError('Error in Artificial_diffusion:\
+                Argument d to Artificial_diffusion should be a positive float')
     if not(isinstance(phiOld,np.ndarray)):
-        raise TypeError('Error in Artificial_diffusion2:\
-                Argument phiOld to Artificial_diffusion2 should be an array')
+        raise TypeError('Error in Artificial_diffusion:\
+                Argument phiOld to Artificial_diffusion should be an array')
 
     nx = len(phiOld)
     
@@ -110,6 +108,21 @@ else:
     print('Error in Artificial_diffusion:\
           an error should be raised if orderAD is different from 2 or 4')
 
+try:
+    Artificial_diffusion(np.zeros(6), 0.125, 40.5, 0.05, 0.05, 0.1, 2)
+except TypeError:
+    pass
+else:
+    print('Error in Artificial_diffusion:\
+          an error should be raised if nt is not an integer')
+
+try:
+    Artificial_diffusion([0,1,2], 0.125, 40, 0.05, 0.05, 0.1, 2)
+except TypeError:
+    pass
+else:
+    print('Error in Artificial_diffusion:\
+          an error should be raised if orderAD is different from 2 or 4')
 
 
 
