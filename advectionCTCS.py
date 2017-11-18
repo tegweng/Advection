@@ -15,14 +15,14 @@ def CTCS(phiOld, c, nt):
     
     # arguments test
     if not(int(nt) == nt):
-        raise TypeError('Error in CTCS:\
-                         Argument nt to CTCS should be an integer')
+        raise TypeError(\
+            'Error in CTCS: Argument nt to CTCS should be an integer')
     if not(isinstance(float(c),float) and float(c) > 0):
-        raise TypeError('Error in CTCS:\
-                        Argument c to CTCS should be a positive float')
+        raise TypeError(\
+            'Error in CTCS: Argument c to CTCS should be a positive float')
     if not(isinstance(phiOld,np.ndarray)):
-        raise TypeError('Error in CTCS:\
-                        Argument phiOld to CTCS should be an array')
+        raise TypeError(\
+            'Error in CTCS: Argument phiOld to CTCS should be an array')
     
     nx = len(phiOld)
     
