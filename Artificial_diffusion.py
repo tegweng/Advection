@@ -122,7 +122,7 @@ except TypeError:
     pass
 else:
     print('Error in Artificial_diffusion:\
-          an error should be raised if orderAD is different from 2 or 4')
+          an error should be raised if phiOld is not a numpy array')
 
 
 
