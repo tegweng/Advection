@@ -12,7 +12,10 @@ import numpy as np
 
 def TVD(phiOld, c, nt, u, limiter):
     """
-    Code to use implement the advection scheme 
+    Code to use implement the advection scheme TVD (Total Variation Diminishing)
+    using the Courant number c and one of three limiter functions:
+    Van Leer, a fixed value to recover the Lax-Wendroff scheme, or the
+    Koren limiter.
     id: 25803263
     """
     nx = len(phiOld)
@@ -51,7 +54,8 @@ def TVD(phiOld, c, nt, u, limiter):
 def flux(phiOld, c, u, limiter = "VanLeer"):
     """
     Function to calculate the values of x_j+1/2 so can use values at i-1
-    in the loop for calculating phi
+    in the loop for calculating phi.
+    id: 25803263
     """
     nx = len(phiOld)
     #don't need to use int(nx) as should already be an integer

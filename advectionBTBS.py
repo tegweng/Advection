@@ -15,15 +15,21 @@ import scipy.linalg as la
 
 
 def BTBS(phi, c, nt):
-    "Diffusion of profile in phi using BTBS using the\
-    Courant number, c, assuming fixed value boundary conditions"
+    """
+    "Diffusion of profile in phi using the implicit advection scheme BTBS 
+    (backward in time, backward in space) using the Courant number, c, 
+    assuming fixed value boundary conditions.
+    id: 25803263
+    """
+    #Error catching
+    
     if nt<=0:
         raise ValueError('Argument nt to BTBS must be positive and non zero.')     
     if not(isinstance(phi,np.ndarray)):
         raise TypeError('Argument phiOld to BTBS must be a numpy array')
     
     nx = len(phi)
-    c = float(c)
+    c = float(c) #to make sure c is a float
     #array representing BTBS
     M=np.zeros([nx,nx])
    
