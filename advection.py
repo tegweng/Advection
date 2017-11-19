@@ -43,8 +43,12 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d=0.1, \
     domain between x = xmin and x = xmax split over nx spatial steps 
     with Courant number c and time step dt for nt time steps.
     There are two separate initial conditions which are contained in the file
-    initialConditions.py. These can be commented out in the code below as
-    required.
+    initialConditions.py. These are passed to the function as arguments using 
+    "func = ".
+    
+    The limiter argument refers to the limiter used for the advection scheme 
+    TVD.
+        
     All students created the code in this function together.
     """
         
