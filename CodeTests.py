@@ -30,7 +30,7 @@ runfile("Warming_and_Beam.py")
 """
 
 
-# testing Artificial_diffusion
+# testing Artificial_diffusion              id 25825273
 try:
     Artificial_diffusion(np.zeros(6), 0.125, 40, 0.05, 0.05, 0.1, 1)
 except ValueError:
@@ -55,7 +55,7 @@ else:
     print('Error in Artificial_diffusion:\
           an error should be raised if phiOld is not a numpy array')
 
-# testing CTCS
+# testing CTCS                              id 25825273
 try:
     CTCS(np.zeros(6), 0.125, 40, 0.05, 0.05, 0.1, 1)
 except TypeError:
