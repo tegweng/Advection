@@ -45,24 +45,3 @@ def SemiLag(phiOld, c, nt, u, dt):
         
     return phi
 
-try:
-    SemiLag(np.zeros(8), 1, 0, 1, 0.5)
-except ValueError:
-    pass
-else:
-    print('Error in SemiLag, error should be raised if nt <= 0')
-    
-try:
-    SemiLag(np.zeros(8), 1, 0.2, 1, 0.5)
-except ValueError:
-    pass
-else:
-    print('Error in SemiLag, error should be raised if nt is not an integer')
-
-try:
-    SemiLag(0, 1, 2, 1, 0.5)
-except TypeError:
-    pass
-else:
-    print('Error in SemiLag, error should be raised if phiOld is not a numpy \
-          array')
