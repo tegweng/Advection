@@ -9,8 +9,17 @@ import numpy as np
 
 
 def FTCSWB(phiOld, c, nt):
-    "Advection of profile in phiOld using FTCS using non-dimensional"
-    "advection coeffient, c"
+    "Scheme FTCSWB is using Warming and Beam method to establish"
+    "the function which is centred in time and forward in space"
+    "advection Courant Number, c = u*dt/dx"
+    
+    #argument testing
+    if nt <= 0:
+        raise ValueError('Arguement nt to scheme FTCSWB should be positive')
+    if not isinstance(phiOld, np.ndarray):
+        raise ValueError('Arguement phiOld to scheme FTCSWB should be an numpy array')
+    if not (int(nt) == nt):
+        raise ValueError('Arguement nt to scheme FTCSWB should be an integer')
     
     nx = len(phiOld)
     
