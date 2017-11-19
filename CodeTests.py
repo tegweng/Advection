@@ -194,26 +194,26 @@ else:
     
 #Testing FTCSWB id:25806676
 try:
-    FTCSWB(np.zeros(8), 1, -1)
+    WB(np.zeros(8), 1, -1)
 except ValueError:
     pass
 else:
-    print('Error in FTCSWB: error should be raised if nt <= 0')
+    print('Error in WB: error should be raised if nt <= 0')
 
 try:
-    FTCSWB(8, 8, 8)
+    WB(8, 8, 8)
 except TypeError:
     pass
 else:
-    print('Error in FTCSWB:\
+    print('Error in WB:\
           error should be raised if phiOld is not a numpy array')
 
 try:
-    FTCSWB(np.zeros(8), 1, 0.6)
+    WB(np.zeros(8), 1, 0.6)
 except ValueError:
     pass
 else:
-    print('Error in FTCSWB: error should be raised if nt is not an integer')
+    print('Error in WB: error should be raised if nt is not an integer')
 
 
 
