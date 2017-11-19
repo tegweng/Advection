@@ -24,7 +24,7 @@ def FTCSWB(phiOld, c, nt):
     nx = len(phiOld)
     
     phi = phiOld.copy()
-    "Using the Warming and Beam to modify the FTCS scheme"    
+    
     for j in range(int(nt)):
         for i in range(nx):
             phi[i] = phiOld[i] - 0.5*c*((3 - c)*phiOld[i] - \
