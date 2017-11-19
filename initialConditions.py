@@ -27,7 +27,7 @@ def squareWave(x,alpha,beta):
 
 def cosine(x, beta, alpha):
     "A wave as a function of position, x, which is 0 for x > alpha"
-
+    "id 25825273"
     "id 25803263"
     
     
