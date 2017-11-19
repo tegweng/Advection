@@ -11,7 +11,10 @@ from __future__ import absolute_import, division, print_function
 import numpy as np
 
 def TVD(phiOld, c, nt, u):
-    
+    """
+    Code to use implement the advection scheme 
+    id: 25803263
+    """
     nx = len(phiOld)
     #don't need to use int(nx) as should already be an integer
     
@@ -109,24 +112,3 @@ def flux(phiOld, c, u):
         phiTVD[i] = Lim[i] * phiH[i] + (1 - Lim[i]) * phiL[i]
             
     return phiTVD
-
-try:
-    TVD(np.zeros(6), 1, 0, 0.5)
-except ValueError:
-    pass
-else:
-    print('Error in TVD, an error should be raised if nt<=0')
-
-try:
-    TVD(0,1,4, -5)
-except TypeError:
-    pass
-else:
-    print('Error in TVD, an error should be raised if phiOld is not a numpy array')
-    
-try:
-    flux(0,1,4)
-except TypeError:
-    pass
-else:
-    print('Error in flux, an error should be raised if phiOld is not a numpy array')

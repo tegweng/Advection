@@ -16,7 +16,18 @@ execfile("advectionTVD.py")
 execfile("SemiLagrangian.py")
 execfile("advectionTVD.py")
 execfile("Warming and Beam.py")
-
+"""
+runfile("advectionBTBS.py")
+runfile("Advection_FTBS.py")
+runfile("advectionFTCS.py")
+runfile("advectionCTCS.py")
+runfile("diagnostics.py")
+runfile("initialConditions.py")
+runfile("Artificial_diffusion.py")
+runfile("advectionTVD.py")
+runfile("SemiLagrangian.py")
+runfile("Warming and Beam.py")
+"""
 
 
 # testing Artificial_diffusion
@@ -69,7 +80,46 @@ else:
     print('Error in CTCS:\
           an error should be raised if phiOld is not a numpy array')
 
+#testing TVD and flux functions idL 25803263
 
+
+try:
+    TVD(np.zeros(6), 1, 0, 0.5)
+except ValueError:
+    pass
+else:
+    print('Error in TVD, an error should be raised if nt<=0')
+
+try:
+    TVD(0,1,4, -5)
+except TypeError:
+    pass
+else:
+    print('Error in TVD, an error should be raised if phiOld is not a numpy array')
+    
+try:
+    flux(0,1,4)
+except TypeError:
+    pass
+else:
+    print('Error in flux, an error should be raised if phiOld is not a numpy array')
+
+#testing BTBS id:25803263
+  
+   
+try:
+    BTBS(np.zeros(6), 1, 0)
+except ValueError:
+    pass
+else:
+    print('Error in BTBS, an error should be raised if nt<=0')
+
+try:
+    BTBS(0,1,4)
+except TypeError:
+    pass
+else:
+    print('Error in BTBS, an error should be raised if phiOld is not a numpy array')
 
 
 

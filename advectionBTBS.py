@@ -39,18 +39,4 @@ def BTBS(phi, c, nt):
         phi = la.solve(M, phi)
     
     return phi
-    
-   
-try:
-    BTBS(np.zeros(6), 1, 0)
-except ValueError:
-    pass
-else:
-    print('Error in BTBS, an error should be raised if nt<=0')
-
-try:
-    BTBS(0,1,4)
-except TypeError:
-    pass
-else:
-    print('Error in BTBS, an error should be raised if phiOld is not a numpy array')
+ 
