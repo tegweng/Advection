@@ -20,7 +20,7 @@ execfile("Artificial_diffusion.py")
 execfile("advectionTVD.py")
 execfile("SemiLagrangian.py")
 execfile("advectionTVD.py")
-execfile("Warming and Beam.py")
+execfile("Warming_and_Beam.py")
 """
 runfile("advectionBTBS.py")
 runfile("Advection_FTBS.py")
@@ -31,7 +31,7 @@ runfile("initialConditions.py")
 runfile("Artificial_diffusion.py")
 runfile("advectionTVD.py")
 runfile("SemiLagrangian.py")
-runfile("Warming and Beam.py")
+runfile("Warming_and_Beam.py")
 """
 
 def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d=0.1, \
