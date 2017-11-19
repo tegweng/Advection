@@ -168,7 +168,52 @@ else:
           array')
 
 
+#Testing FTCS id:25806676
+try:
+    FTCS(np.zeros(6), 1, -1)
+except ValueError:
+    pass
+else:
+    print('Error in FTCS: error should be raised if nt <= 0')
 
+try:
+    FTCS(6, 6, 6)
+except TypeError:
+    pass
+else:
+    print('Error in FTCS:\
+          error should be raised if phiOld is not a numpy array')
+
+try:
+    FTCS(np.zeros(6), 1, 0.6)
+except ValueError:
+    pass
+else:
+    print('Error in FTCS: error should be raised if nt is not an integer')  
+    
+    
+#Testing FTCSWB id:25806676
+try:
+    FTCSWB(np.zeros(8), 1, -1)
+except ValueError:
+    pass
+else:
+    print('Error in FTCSWB: error should be raised if nt <= 0')
+
+try:
+    FTCSWB(8, 8, 8)
+except TypeError:
+    pass
+else:
+    print('Error in FTCSWB:\
+          error should be raised if phiOld is not a numpy array')
+
+try:
+    FTCSWB(np.zeros(8), 1, 0.6)
+except ValueError:
+    pass
+else:
+    print('Error in FTCSWB: error should be raised if nt is not an integer')
 
 
 
