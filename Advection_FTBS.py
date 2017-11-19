@@ -34,25 +34,3 @@ def FTBS(phiOld, c, nt):
         phiOld = phi.copy()
         
     return phi
-
-try:
-    FTBS(np.zeros(8), 1, 0)
-except ValueError:
-    pass
-else:
-    print('Error in FTBS, error should be raised if nt <= 0')
-    
-try:
-    FTBS(np.zeros(8), 1, 0.2)
-except ValueError:
-    pass
-else:
-    print('Error in FTBS, error should be raised if nt is not an integer')
-
-try:
-    FTBS(0, 1, 2)
-except TypeError:
-    pass
-else:
-    print('Error in FTBS, error should be raised if phiOld is not a numpy \
-          array')

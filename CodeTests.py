@@ -15,7 +15,7 @@ execfile("Artificial_diffusion.py")
 execfile("advectionTVD.py")
 execfile("SemiLagrangian.py")
 execfile("advectionTVD.py")
-execfile("Warming and Beam.py")
+execfile("Warming_and_Beam.py")
 """
 runfile("advectionBTBS.py")
 runfile("Advection_FTBS.py")
@@ -26,7 +26,7 @@ runfile("initialConditions.py")
 runfile("Artificial_diffusion.py")
 runfile("advectionTVD.py")
 runfile("SemiLagrangian.py")
-runfile("Warming and Beam.py")
+runfile("Warming_and_Beam.py")
 """
 
 
@@ -96,7 +96,6 @@ except TypeError:
     pass
 else:
     print('Error in TVD, an error should be raised if phiOld is not a numpy array')
-    
 try:
     flux(0,1,4)
 except TypeError:
@@ -122,10 +121,51 @@ else:
     print('Error in BTBS, an error should be raised if phiOld is not a numpy array')
 
 
+#Testing FTBS ID: 25818629
+try:
+    FTBS(np.zeros(8), 1, 0)
+except ValueError:
+    pass
+else:
+    print('Error in FTBS, error should be raised if nt <= 0')
+
+try:
+    FTBS(np.zeros(8), 1, 0.2)
+except ValueError:
+    pass
+else:
+    print('Error in FTBS, error should be raised if nt is not an integer')
+
+try:
+    FTBS(0, 1, 2)
+except TypeError:
+    pass
+else:
+    print('Error in FTBS, error should be raised if phiOld is not a numpy array')
 
 
+#Testing Semi-Lagrangian ID: 25818269
+try:
+    SemiLag(np.zeros(8), 1, 0, 1, 0.5)
+except ValueError:
+    pass
+else:
+    print('Error in SemiLag, error should be raised if nt <= 0')
+    
+try:
+    SemiLag(np.zeros(8), 1, 0.2, 1, 0.5)
+except ValueError:
+    pass
+else:
+    print('Error in SemiLag, error should be raised if nt is not an integer')
 
-
+try:
+    SemiLag(0, 1, 2, 1, 0.5)
+except TypeError:
+    pass
+else:
+    print('Error in SemiLag, error should be raised if phiOld is not a numpy \
+          array')
 
 
 
