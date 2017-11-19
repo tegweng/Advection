@@ -90,9 +90,10 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d=0.1, \
     phiCTCS = CTCS(phiOld.copy(), c, nt)
     phiFTCS = FTCS(phiOld.copy(), c, nt)
     phiFTBS = FTBS(phiOld.copy(), c, nt)
-    
-    print("d_2 is ", k*dt/dx**2)
-    print("d_4 is ", k*dt/dx**4)
+
+    #values of artificial diffusion coefficients (dimensional)
+    print("k_2 is ", d*dx**2/dt)
+    print("k_4 is ", d*dx**4/dt)
     
     
     # plot the solutions of the linear finite difference schemes 
