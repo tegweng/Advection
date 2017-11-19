@@ -8,8 +8,16 @@ id 25806676
 """
 
 def FTCS(phiOld, c, nt):
-    "Advection of profile in phiOld using FTCS using non-dimensional"
-    "advection coeffient, c"
+"Advection of profile in phiOld using FTCS using non-dimensional"
+"advection Courant number, c"
+    
+    #arguement tesing
+    if nt <= 0:
+        raise ValueError('Arguement nt to scheme FTCS should be positive')
+    if not isinstance(phiOld, np.ndarray):
+        raise ValueError('Arguement phiOld to scheme FTCS should be an numpy array')
+    if not (int(nt) == nt):
+        raise ValueError('Arguement nt to scheme FTCS should be an integer')
     
     nx = len(phiOld)
     
