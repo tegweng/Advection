@@ -10,7 +10,7 @@ Created on Tue Nov 14 14:16:39 2017
 from __future__ import absolute_import, division, print_function
 import numpy as np
 
-def TVD(phiOld, c, nt, u):
+def TVD(phiOld, c, nt, u, limiter):
     """
     Code to use implement the advection scheme 
     id: 25803263
@@ -36,7 +36,7 @@ def TVD(phiOld, c, nt, u):
     #time loop
     for it in range(nt):
         #calculating the spatial points at each time step
-        phiTVD = flux(phiOld.copy(), c, u)
+        phiTVD = flux(phiOld.copy(), c, u, limiter)
         
         for i in range(1,nx):
         #calculating phi at n+1
@@ -48,7 +48,7 @@ def TVD(phiOld, c, nt, u):
     
     return phi
 
-def flux(phiOld, c, u):
+def flux(phiOld, c, u, limiter = "VanLeer"):
     """
     Function to calculate the values of x_j+1/2 so can use values at i-1
     in the loop for calculating phi
@@ -88,25 +88,28 @@ def flux(phiOld, c, u):
         r[i] = h / g
     
         #calculating Limiter function    
+    
+        if limiter == "VanLeer":
         
-        #Van Leer limiter function    
-        if g == 0:
-            if h ==0:
-                Lim[i] = 1
-                #as when they both tend to zero the answer will tend to one
-            else: 
-                Lim[i] = 2
-                #as when r -> infinity VLL -> 2
-        else:
-            Lim[i] = ( r[i] + abs(r[i]) ) / (1 + abs(r[i]) )
-        """   
-        #constant limiter function to recover Lax-Wendroff scheme
-        Lim[i] = 1
+            #Van Leer limiter function    
+            if g == 0:
+                if h ==0:
+                    Lim[i] = 1
+                    #as when they both tend to zero the answer will tend to one
+                else: 
+                    Lim[i] = 2
+                    #as when r -> infinity VLL -> 2
+            else:
+                Lim[i] = ( r[i] + abs(r[i]) ) / (1 + abs(r[i]) )
+        elif limiter == "LaxWend":
+            #constant limiter function to recover Lax-Wendroff scheme
+            Lim[i] = 1
 
-        #Koren limiter - third order accurate for sufficiently smooth data
-        Lim[i] = max(0, min(2 * r[i], (2 + r[i]) / 3, 2))
+        elif limiter == "Koren":
+            #Koren limiter - third order accurate for sufficiently smooth data
+            Lim[i] = max(0, min(2 * r[i], (2 + r[i]) / 3, 2))
         
-        """
+        
         #calculating values of phi at j+1/2 etc
         
         phiTVD[i] = Lim[i] * phiH[i] + (1 - Lim[i]) * phiL[i]

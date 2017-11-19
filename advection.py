@@ -36,8 +36,8 @@ runfile("Warming and Beam.py")
 
 def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d=0.1, \
          squareWaveMin = 0.0, squareWaveMax = 0.5, \
-         func = squareWave, name_fig='attempt'):
-
+         func = squareWave, name_fig='attempt', limiter = "Vanleer"):
+             
     """
     Advect an initial function between squareWaveMin and squareWaveMax on a 
     domain between x = xmin and x = xmax split over nx spatial steps 
@@ -45,6 +45,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d=0.1, \
     There are two separate initial conditions which are contained in the file
     initialConditions.py. These can be commented out in the code below as
     required.
+    All students created the code in this function together.
     """
         
     # code for fixed c, nt and nx (modification is needed also in the main 
@@ -80,7 +81,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d=0.1, \
 
     # advection using various diffusion schemes (for Artificial_diffusion we are
     # interested only in the first item of the tuple returned)
-    phiTVD = TVD(phiOld.copy(), c, nt, u)
+    phiTVD = TVD(phiOld.copy(), c, nt, u, limiter)
     phiArt_diff2 = Artificial_diffusion(phiOld.copy(), c, nt, dx, dt, d, 2)[0]
     phiArt_diff4 = Artificial_diffusion(phiOld.copy(), c, nt, dx, dt, d, 4)[0]
     phiSemiLag = SemiLag(phiOld.copy(), c, nt, u, dt)
