@@ -122,7 +122,27 @@ else:
     print('Error in BTBS, an error should be raised if phiOld is not a numpy array')
 
 
+#Testing FTBS ID: 25818629
+try:
+    FTBS(np.zeros(8), 1, 0)
+except ValueError:
+    pass
+else:
+    print('Error in FTBS, error should be raised if nt <= 0')
 
+try:
+    FTBS(np.zeros(8), 1, 0.2)
+except ValueError:
+    pass
+else:
+    print('Error in FTBS, error should be raised if nt is not an integer')
+
+try:
+    FTBS(0, 1, 2)
+except TypeError:
+    pass
+else:
+    print('Error in FTBS, error should be raised if phiOld is not a numpy array')
 
 
 
