@@ -39,17 +39,3 @@ def cosine(x, beta, alpha):
             phi[j] = 0.5*(1 - np.cos(4*np.pi*x[j]))
     phi[len(x)-1]=phi[0]
     return phi
-
-
-
-
-
-
-def naive(x,alpha,beta):
-    phi=np.zeros_like(x)
-    dx=x[1]-x[0]
-    west_limit=int(alpha/dx)
-    east_limit=int(beta/dx)
-    for j in range(west_limit+1,east_limit+1):
-        phi[j]=1.
-    return phi
