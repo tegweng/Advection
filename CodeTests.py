@@ -54,15 +54,47 @@ except TypeError:
 else:
     print('Error in Artificial_diffusion:\
           an error should be raised if phiOld is not a numpy array')
+    
+try:
+    Artificial_diffusion(np.zeros(6), 0.125, 40, -0.05, 0.05, 0.1, 2)
+except TypeError:
+    pass
+else:
+    print('Error in Artificial_diffusion:\
+          an error should be raised if dx is less than zero')
+
+try:
+    Artificial_diffusion(np.zeros(6), 0.125, 40, 0.05, -0.05, 0.1, 2)
+except TypeError:
+    pass
+else:
+    print('Error in Artificial_diffusion:\
+          an error should be raised if dt is less than zero')
+
+try:
+    Artificial_diffusion(np.zeros(6), 0.125, 40, 0.05, 0.05, -0.1, 2)
+except TypeError:
+    pass
+else:
+    print('Error in Artificial_diffusion:\
+          an error should be raised if d is less than zero')
+
+try:
+    Artificial_diffusion(np.zeros(6), -0.125, 40, 0.05, 0.05, 0.1, 2)
+except TypeError:
+    pass
+else:
+    print('Error in Artificial_diffusion:\
+          an error should be raised if c is less than zero')
 
 # testing CTCS                              id 25825273
 try:
-    CTCS(np.zeros(6), 0.125, 40, 0.05, 0.05, 0.1, 1)
+    CTCS(np.zeros(6), 0.125, 40.5)
 except TypeError:
     pass
 else:
     print('Error in CTCS:\
-          an error should be raised if orderAD is different from 2 or 4')
+          an error should be raised if nt is not an integer')
 
 try:
     CTCS(np.zeros(6), 0, 40)
