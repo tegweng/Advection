@@ -89,7 +89,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d=0.1, \
     phiArt_diff2 = Artificial_diffusion(phiOld.copy(), c, nt, dx, dt, d, 2)[0]
     phiArt_diff4 = Artificial_diffusion(phiOld.copy(), c, nt, dx, dt, d, 4)[0]
     phiSemiLag = SemiLag(phiOld.copy(), c, nt, u, dt)
-    phiFTCSWB = FTCSWB(phiOld.copy(), c, nt)
+    phiWB = WB(phiOld.copy(), c, nt)
     phiBTBS = BTBS(phiOld.copy(), c, nt)
     phiCTCS = CTCS(phiOld.copy(), c, nt)
     phiFTCS = FTCS(phiOld.copy(), c, nt)
