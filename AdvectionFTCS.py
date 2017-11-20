@@ -8,8 +8,8 @@ id 25806676
 """
 
 def FTCS(phiOld, c, nt):
-"Advection of profile in phiOld using FTCS using non-dimensional"
-"advection Courant number, c = u*dt/dx"
+    "Advection of profile in phiOld using FTCS"
+    "advection Courant number, c = u*dt/dx"
     
     #arguement tesing
     if nt <= 0:
