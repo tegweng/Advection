@@ -34,8 +34,8 @@ runfile("SemiLagrangian.py")
 runfile("Warming_and_Beam.py")
 """
 
-def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d=0.1, \
-         squareWaveMin = 0.0, squareWaveMax = 0.5, \
+def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d_2=0.1012, \
+         d_4 = 0.05, squareWaveMin = 0.0, squareWaveMax = 0.5, \
          func = squareWave, name_fig='attempt', limiter = "Vanleer"):
              
     """
@@ -86,8 +86,8 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d=0.1, \
     # advection using various diffusion schemes (for Artificial_diffusion we are
     # interested only in the first item of the tuple returned)
     phiTVD = TVD(phiOld.copy(), c, nt, u, limiter)
-    phiArt_diff2 = Artificial_diffusion(phiOld.copy(), c, nt, dx, dt, d, 2)[0]
-    phiArt_diff4 = Artificial_diffusion(phiOld.copy(), c, nt, dx, dt, d, 4)[0]
+    phiArt_diff2 = Artificial_diffusion(phiOld.copy(), c, nt, dx, dt, d_2, 2)[0]
+    phiArt_diff4 = Artificial_diffusion(phiOld.copy(), c, nt, dx, dt, d_4, 4)[0]
     phiSemiLag = SemiLag(phiOld.copy(), c, nt, u, dt)
     phiWB = WB(phiOld.copy(), c, nt)
     phiBTBS = BTBS(phiOld.copy(), c, nt)
@@ -96,8 +96,8 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d=0.1, \
     phiFTBS = FTBS(phiOld.copy(), c, nt)
 
     #values of artificial diffusion coefficients (dimensional)
-    print("k_2 is ", d*dx**2/dt)
-    print("k_4 is ", d*dx**4/dt)
+    print("k_2 is ", d_2*dx**2/dt)
+    print("k_4 is ", d_4*dx**4/dt)
     
     
     # plot the solutions of the linear finite difference schemes 
@@ -106,19 +106,29 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d=0.1, \
     plt.figure(1)
     plt.clf()
     plt.ion()
-    plt.plot(x, phiOld, label='Initial', color='black')
-    plt.plot(x, phiAnalytic, label='Analytic', color='black', linestyle='--', \
+    plt.axhline(0, linestyle=':', color='gray')
+    plt.plot(x, phiOld, label='Initial', color='gray')
+    plt.plot(x, phiAnalytic, label='Analytic', color='gray', linestyle='--', \
              linewidth=2)
+    """
     plt.plot(x, phiCTCS, label='CTCS', color='blue')
     plt.plot(x, phiFTBS, label='FTBS', color='red')
     plt.plot(x, phiFTCS, label = 'FTCS', color = 'orange')
     plt.plot(x, phiBTBS, label = 'BTBS', color = 'green')
-    plt.axhline(0, linestyle=':', color='black')
+    """
+    plt.plot(x, phiTVD, label='TVD', color='blue')
+    plt.plot(x, phiSemiLag, label = 'SemiLag', color = 'green')
+    plt.plot(x, phiWB, label='WB', color='maroon')
+    plt.plot(x, phiArt_diff2, label='Diffusion (2nd)', color='red')
+    plt.plot(x, phiArt_diff4, label = 'Diffusion (4th)', color = 'orange')
+    
     plt.xlim([0,1])
     plt.ylim([-1,2])
     plt.legend()
     plt.xlabel('$x$')
-    plt.title("dt = {:.5f}, c = {:.3f}".format(dt, c))
+    plt.ylabel('$\phi$')
+    plt.title("dt = {:.5f}, c = {:.3f}, ($d_2$ = {:.3f}, $d_4 = {:.3f}$)"\
+              .format(dt, c, d_2, d_4))
     plt.savefig('Plots/' + name_fig + '_' + \
                 func.__name__ + '.pdf')
     
