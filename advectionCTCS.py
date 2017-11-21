@@ -34,7 +34,7 @@ def CTCS(phiOld, c, nt):
     for j in range(0,nx):
         phiCurrent[j] = phiOld[j] - c*0.5*(phiOld[(j+1)%nx] - phiOld[(j-1)%nx])
     # CTCS for all time steps
-    for it in range(nt):
+    for it in range(nt-1):
         
         # spatial points
         for j in range(0,nx):

@@ -63,15 +63,15 @@ def Artificial_diffusion(phiOld, c, nt, dx, dt, d, orderAD=2):
                       phiOld[(j-1)%nx]) + d*(phiOld[(j+1)%nx] - 2*phiOld[j]\
                              + phiOld[(j-1)%nx])
         # CTCS for advection, FTCS for diffusion
-        for it in range(nt):
+        for it in range(nt-1):
             # spatial points
             for j in range(0,nx):
                 phiNew[j] = phiOld[j] - \
                 c*(phiCurrent[(j+1)%nx] - phiCurrent[(j-1)%nx]) + \
                 2*d*(phiOld[(j+1)%nx] - 2*phiOld[j] + phiOld[(j-1)%nx])
-                # output to phiOld for the next time-step
-                phiOld = phiCurrent.copy()
-                phiCurrent = phiNew.copy()
+            # output to phiOld for the next time-step
+            phiOld = phiCurrent.copy()
+            phiCurrent = phiNew.copy()
     
     if (orderAD==4):
         # FTCS for both advection and diffusion to compute the first time step
@@ -81,16 +81,16 @@ def Artificial_diffusion(phiOld, c, nt, dx, dt, d, orderAD=2):
                                - 4*phiOld[(j+1)%nx] + 6*phiOld[j]\
                                - 4*phiOld[(j-1)%nx] + phiOld[(j-2)%nx])
         # CTCS for advection, FTCS for diffusion
-        for it in range(nt):
+        for it in range(nt-1):
             # spatial points
             for j in range(0,nx):
                 phiNew[j] = phiOld[j] - \
                 c*(phiCurrent[(j+1)%nx] - phiCurrent[(j-1)%nx]) - \
                 2*d*(phiOld[(j+2)%nx] - 4*phiOld[(j+1)%nx] + \
                             6*phiOld[j] - 4*phiOld[(j-1)%nx] + phiOld[(j-2)%nx])
-                # output to phiOld for the next time-step
-                phiOld = phiCurrent.copy()
-                phiCurrent = phiNew.copy()
+            # output to phiOld for the next time-step
+            phiOld = phiCurrent.copy()
+            phiCurrent = phiNew.copy()
     
     if not((orderAD==2) or (orderAD==4)):
         raise ValueError(\
