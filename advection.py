@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 # read in all the linear advection schemes, initial conditions and other
 # code associated with this application (use with runfile if exec not supported)
-"""
+
 execfile("advectionBTBS.py")
 execfile("Advection_FTBS.py")
 execfile("advectionFTCS.py")
@@ -32,7 +32,7 @@ runfile("Artificial_diffusion.py")
 runfile("advectionTVD.py")
 runfile("SemiLagrangian.py")
 runfile("Warming_and_Beam.py")
-
+"""
 
 def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d=0.1, \
          squareWaveMin = 0.0, squareWaveMax = 0.5, \
