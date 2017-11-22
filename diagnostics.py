@@ -60,7 +60,7 @@ def disprel(c, dx):
         
         ang[i] = float(kdx[i]) * pmode[i]
         cang[i] = -ang[i]
-    
+    """
     font = {'size' : 10}
     plt.rc('font', **font)
     plt.figure(1)
@@ -70,12 +70,13 @@ def disprel(c, dx):
     plt.plot(kdx, cmode, label='Computational mode', color='black')
     plt.axhline(0, linestyle=':', color='black')
     plt.xlim([0,np.pi])
-    plt.ylim([-1.5,1.5])
-    plt.xticks
+    plt.ylim([-1.,1.])
+    plt.xticks([0, np.pi/4, np.pi/2, 3*np.pi/4, np.pi], 
+               (0, '$\pi/4$','$\pi/2$','$3\pi/4$','$\pi$'))
     plt.legend()
     plt.xlabel('$k\Delta x$')
     plt.ylabel('$u_n/u$')
-    plt.title("dx = 0.01 c = 0.128")
+    plt.title('dx =' + str(dx) +' c =' + str(c) )
     plt.savefig('Plots/dispersionrelation.pdf')
     
     font = {'size' : 10}
@@ -90,13 +91,36 @@ def disprel(c, dx):
     plt.axhline(0, linestyle=':', color='black')
     plt.xlim([0,np.pi])
     plt.ylim([-1.5,1.5])
-    plt.xticks
+    plt.xticks([0, np.pi/4, np.pi/2, 3*np.pi/4, np.pi], 
+               (0, '$\pi/4$','$\pi/2$','$3\pi/4$','$\pi$'))
     plt.legend()
     plt.xlabel('$k\Delta x$')
     plt.ylabel('$\omega_n/u$')
-    plt.title("dx = 0.01 c = 0.128")
+    plt.title('dx =' + str(dx) +' c =' + str(c) )
     plt.savefig('Plots/dispersionrelation2.pdf')
-
+    """
+    return  ang
     
+def compare(c1, c2, dx):
+    k = np.arange(0, int(np.pi / dx)+1, 1)
+    kdx = k * dx
+    
+    font = {'size' : 10}
+    plt.rc('font', **font)
+    plt.figure(2)
+    plt.clf()
+    plt.ion()
+    plt.plot(kdx, disprel(c1,dx), label=str(c1), color='black')
+    plt.plot(kdx, disprel(c2,dx), label=str(c2), color='red')
+    plt.axhline(0, linestyle=':', color='black')
+    plt.xlim([0,np.pi])
+    plt.ylim([-1.5,1.5])
+    plt.xticks([0, np.pi/4, np.pi/2, 3*np.pi/4, np.pi], 
+               (0, '$\pi/4$','$\pi/2$','$3\pi/4$','$\pi$'))
+    plt.legend()
+    plt.xlabel('$k\Delta x$')
+    plt.ylabel('$\omega_n/u$')
+    plt.title('c2 =' + str(c2) +' c1 =' + str(c1) )
+    plt.savefig('Plots/dispersionrelation2.pdf')
     
 
