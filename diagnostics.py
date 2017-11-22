@@ -61,39 +61,39 @@ def disprel(c, dx):
         ang[i] = float(kdx[i]) * pmode[i]
         cang[i] = -ang[i]
     
-    font = {'size' : 10}
+    font = {'size' : 8}
     plt.rc('font', **font)
     plt.figure(1)
     plt.clf()
     plt.ion()
-    plt.plot(kdx, pmode, label='Physical mode', color='black')
-    plt.plot(kdx, cmode, label='Computational mode', color='red')
+    plt.plot(kdx, pmode, label='Physical', color='black')
+    plt.plot(kdx, cmode, label='Computational', color='red')
     plt.axhline(0, linestyle=':', color='black')
     plt.xlim([0,np.pi])
     plt.ylim([-1.,1.])
     plt.xticks([0, np.pi/4, np.pi/2, 3*np.pi/4, np.pi], 
                (0, '$\pi/4$','$\pi/2$','$3\pi/4$','$\pi$'))
-    plt.legend()
+    plt.legend(borderaxespad=0.)
     plt.xlabel('$k\Delta x$')
     plt.ylabel('$u_n/u$')
     plt.title('dx =' + str(dx) +' c =' + str(c) )
     plt.savefig('Plots/dispersionrelation.pdf')
     
-    font = {'size' : 10}
+    font = {'size' : 8}
     plt.rc('font', **font)
     plt.figure(2)
     plt.clf()
     plt.ion()
-    plt.plot(kdx, ang, label='Physical mode', color='black')
+    plt.plot(kdx, ang, label='Physical', color='black')
     plt.plot(kdx, tmode, label='True', color='black', linestyle='--', \
              linewidth=2)
-    plt.plot(kdx, cang, label='Computational mode', color='red')
+    plt.plot(kdx, cang, label='Computational', color='red')
     plt.axhline(0, linestyle=':', color='black')
     plt.xlim([0,np.pi])
     plt.ylim([-1.5,1.5])
     plt.xticks([0, np.pi/4, np.pi/2, 3*np.pi/4, np.pi], 
                (0, '$\pi/4$','$\pi/2$','$3\pi/4$','$\pi$'))
-    plt.legend()
+    plt.legend(borderaxespad=0.)
     plt.xlabel('$k\Delta x$')
     plt.ylabel('$\omega_n/u$')
     plt.title('dx =' + str(dx) +' c =' + str(c) )
@@ -125,7 +125,7 @@ def compare(c1, c2, dx):
     plt.ylim([-1.5,1.5])
     plt.xticks([0, np.pi/4, np.pi/2, 3*np.pi/4, np.pi], 
                (0, '$\pi/4$','$\pi/2$','$3\pi/4$','$\pi$'))
-    plt.legend()
+    plt.legend(borderaxespad=0.)
     plt.xlabel('$k\Delta x$')
     plt.ylabel('$\omega_n/u$')
     plt.title('c2 =' + str(c2) +' c1 =' + str(c1) )

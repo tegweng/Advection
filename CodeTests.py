@@ -116,14 +116,14 @@ else:
 
 
 try:
-    TVD(np.zeros(6), 1, 0, 0.5)
+    TVD(np.zeros(6), 1, 0, 0.5,limiter = "VanLeer")
 except ValueError:
     pass
 else:
     print('Error in TVD, an error should be raised if nt<=0')
 
 try:
-    TVD(0,1,4, -5)
+    TVD(0,1,4, -5,limiter = "VanLeer")
 except TypeError:
     pass
 else:
