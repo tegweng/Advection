@@ -60,14 +60,14 @@ def disprel(c, dx):
         
         ang[i] = float(kdx[i]) * pmode[i]
         cang[i] = -ang[i]
-    """
+    
     font = {'size' : 10}
     plt.rc('font', **font)
     plt.figure(1)
     plt.clf()
     plt.ion()
     plt.plot(kdx, pmode, label='Physical mode', color='black')
-    plt.plot(kdx, cmode, label='Computational mode', color='black')
+    plt.plot(kdx, cmode, label='Computational mode', color='red')
     plt.axhline(0, linestyle=':', color='black')
     plt.xlim([0,np.pi])
     plt.ylim([-1.,1.])
@@ -87,7 +87,7 @@ def disprel(c, dx):
     plt.plot(kdx, ang, label='Physical mode', color='black')
     plt.plot(kdx, tmode, label='True', color='black', linestyle='--', \
              linewidth=2)
-    plt.plot(kdx, cang, label='Computational mode', color='black')
+    plt.plot(kdx, cang, label='Computational mode', color='red')
     plt.axhline(0, linestyle=':', color='black')
     plt.xlim([0,np.pi])
     plt.ylim([-1.5,1.5])
@@ -98,16 +98,24 @@ def disprel(c, dx):
     plt.ylabel('$\omega_n/u$')
     plt.title('dx =' + str(dx) +' c =' + str(c) )
     plt.savefig('Plots/dispersionrelation2.pdf')
-    """
+    
     return  ang
     
 def compare(c1, c2, dx):
+    
+    """
+    Code to compare the dispersion relations depending on the value of c. 
+    Note that you need to comment out the figures in the function disprel 
+    to get accurrate results.
+    
+    25803263
+    """
     k = np.arange(0, int(np.pi / dx)+1, 1)
     kdx = k * dx
     
     font = {'size' : 10}
     plt.rc('font', **font)
-    plt.figure(2)
+    plt.figure(3)
     plt.clf()
     plt.ion()
     plt.plot(kdx, disprel(c1,dx), label=str(c1), color='black')
@@ -121,6 +129,6 @@ def compare(c1, c2, dx):
     plt.xlabel('$k\Delta x$')
     plt.ylabel('$\omega_n/u$')
     plt.title('c2 =' + str(c2) +' c1 =' + str(c1) )
-    plt.savefig('Plots/dispersionrelation2.pdf')
+    plt.savefig('Plots/dispersionrelationcompare.pdf')
     
 
