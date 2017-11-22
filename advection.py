@@ -79,7 +79,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d_2=0.1012, \
     # analytic solution of the advection equation (in domain [0,1) )
     # using modulo to keep the solution in the domain
    
-    phiAnalytic = func(x - u * T,squareWaveMin,squareWaveMax)
+    phiAnalytic = func((x - u * T)%1.,squareWaveMin,squareWaveMax)
     
 
 
