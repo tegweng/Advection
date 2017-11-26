@@ -137,6 +137,8 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d_2=0.1012, \
 
    #calculate and print out error norms
     print("FTBS L2 error norm = ", L2ErrorNorm(phiFTBS, phiAnalytic))
+    print("CTCS L2 error norm = ", L2ErrorNorm(phiCTCS, phiAnalytic))
+    print("FTCS L2 error norm = ", L2ErrorNorm(phiFTCS, phiAnalytic))
     print("BTBS L2 error norm = ", L2ErrorNorm(phiBTBS, phiAnalytic))
     print("TVD L2 error norm = ", L2ErrorNorm(phiTVDK, phiAnalytic))
     print("Semi-lagrangian L2 error norm = ", L2ErrorNorm(phiSemiLag, phiAnalytic))
@@ -145,3 +147,30 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d_2=0.1012, \
           L2ErrorNorm(phiArt_diff2, phiAnalytic))
     print("Artificial hyperdiffusion L2 error norm = ", 
           L2ErrorNorm(phiArt_diff4, phiAnalytic))
+
+dxs = [0.00024, 0.0024, 0.024, 0.24]
+gradFTBS = [0, 0 , 0, 0]
+gradCTCS = [0, 0 , 0, 0]
+gradFTCS = [0, 0 , 0, 0]
+gradBTBS = [0, 0 , 0, 0]
+gradTVDK = [0, 0 , 0, 0]
+gradSL = [0, 0 , 0, 0]
+gradWB = [0, 0 , 0, 0]
+gradART2 = [0, 0 , 0, 0]
+gradART4 = [0, 0 , 0, 0]
+
+
+
+plt.figure(4)
+plt.loglog(dxs,order(dxs,gradFTBS), label = 'FTBS', color = 'blue')
+plt.loglog(dxs,order(dxs, gradCTCS), label = 'BTBS', color = 'red')
+plt.loglog(dxs,order(dxs, gradFTCS), label = 'FTBS', color = 'green')
+plt.loglog(dxs,order(dxs, gradCTCS), label = 'BTBS', color = 'yellow')
+plt.loglog(dxs,order(dxs, gradTVDK), label = 'TVD', color = 'orange')
+plt.loglog(dxs,order(dxs, gradSL), label = 'SL', color = 'brown')
+plt.loglog(dxs,order(dxs, gradWB), label = 'WB', color = 'purple')
+plt.loglog(dxs,order(dxs, gradART2), label = 'AD 2', color = 'navy')
+plt.loglog(dxs,order(dxs, gradART4), label = 'AD 4', color = 'pink')
+plt.legend(bbox_to_anchor=(1, 0.5))
+plt.xlabel('$\Delta x$')
+plt.savefig('plots/order_accuracy.pdf')

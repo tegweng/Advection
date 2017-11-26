@@ -131,4 +131,9 @@ def compare(c1, c2, dx):
     plt.title('c2 =' + str(c2) +' c1 =' + str(c1) )
     plt.savefig('Plots/dispersionrelationcompare.pdf')
     
+def order(dxs, errors):
+    grad = np.zeros(len(dxs)-1)
+    for i in xrange(0,len(grad)):
+        grad[i]=(math.log(abs(errors[i+1]))-math.log(abs(errors[i])))/(math.log(abs(dxs[i+1]))-math.log(abs(dxs[i])))
+    return(grad)
 
