@@ -17,7 +17,6 @@ execfile("advectionCTCS.py")
 execfile("diagnostics.py")
 execfile("initialConditions.py")
 execfile("Artificial_diffusion.py")
-execfile("advectionTVD.py")
 execfile("SemiLagrangian.py")
 execfile("advectionTVD.py")
 execfile("Warming_and_Beam.py")
@@ -117,7 +116,9 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d_2=0.1012, \
     plt.plot(x, phiFTBS, label='FTBS', color='red')
     plt.plot(x, phiFTCS, label = 'FTCS', color = 'orange')
     plt.plot(x, phiBTBS, label = 'BTBS', color = 'green')
-    """
+
+
+"""
     plt.plot(x, phiTVDK, label='TVD', color='blue')
     plt.plot(x, phiSemiLag, label = 'SemiLag', color = 'green')
     plt.plot(x, phiWB, label='WB', color='maroon')
@@ -174,3 +175,12 @@ plt.loglog(dxs,order(dxs, gradART4), label = 'AD 4', color = 'pink')
 plt.legend(bbox_to_anchor=(1, 0.5))
 plt.xlabel('$\Delta x$')
 plt.savefig('plots/order_accuracy.pdf')
+
+#Student ID: 25818629
+#Testing boundedness for TVD
+#To test other schemes, simply change TVD to the other scheme
+ for i in range(0, nx):
+        if 0 <= phiTVD[i] <= 1:
+            print('TVD bounded')
+        else:
+            print('TVD not bounded')
