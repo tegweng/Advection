@@ -85,7 +85,9 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d_2=0.1012, \
 
     # advection using various diffusion schemes (for Artificial_diffusion we are
     # interested only in the first item of the tuple returned)
-    phiTVD = TVD(phiOld.copy(), c, nt, u, limiter)
+    phiTVDVL = TVD(phiOld.copy(), c, nt, u, limiter)
+    phiTVDLW = TVD(phiOld.copy(), c, nt, u, limiter = "LaxWend")
+    phiTVDK = TVD(phiOld.copy(), c, nt, u, limiter = "Koren")
     phiArt_diff2 = Artificial_diffusion(phiOld.copy(), c, nt, dx, dt, d_2, 2)[0]
     phiArt_diff4 = Artificial_diffusion(phiOld.copy(), c, nt, dx, dt, d_4, 4)[0]
     phiSemiLag = SemiLag(phiOld.copy(), c, nt, u, dt)
@@ -101,7 +103,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d_2=0.1012, \
     
     
     # plot the solutions of the linear finite difference schemes 
-    font = {'size' : 10}
+    font = {'size' : 8}
     plt.rc('font', **font)
     plt.figure(1)
     plt.clf()
@@ -116,7 +118,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d_2=0.1012, \
     plt.plot(x, phiFTCS, label = 'FTCS', color = 'orange')
     plt.plot(x, phiBTBS, label = 'BTBS', color = 'green')
     """
-    plt.plot(x, phiTVD, label='TVD', color='blue')
+    plt.plot(x, phiTVDK, label='TVD', color='blue')
     plt.plot(x, phiSemiLag, label = 'SemiLag', color = 'green')
     plt.plot(x, phiWB, label='WB', color='maroon')
     plt.plot(x, phiArt_diff2, label='Diffusion (2nd)', color='red')
@@ -124,7 +126,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d_2=0.1012, \
     
     plt.xlim([0,1])
     plt.ylim([-1,2])
-    plt.legend()
+    plt.legend(borderaxespad=0.)
     plt.xlabel('$x$')
     plt.ylabel('$\phi$')
     plt.title("dt = {:.5f}, c = {:.3f}, ($d_2$ = {:.3f}, $d_4 = {:.3f}$)"\
@@ -133,4 +135,13 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d_2=0.1012, \
                 func.__name__ + '.pdf')
     
 
-   
+   #calculate and print out error norms
+    print("FTBS L2 error norm = ", L2ErrorNorm(phiFTBS, phiAnalytic))
+    print("BTBS L2 error norm = ", L2ErrorNorm(phiBTBS, phiAnalytic))
+    print("TVD L2 error norm = ", L2ErrorNorm(phiTVDK, phiAnalytic))
+    print("Semi-lagrangian L2 error norm = ", L2ErrorNorm(phiSemiLag, phiAnalytic))
+    print("Warming and beam L2 error norm = ", L2ErrorNorm(phiWB, phiAnalytic))
+    print("Artificial diffusion L2 error norm = ", 
+          L2ErrorNorm(phiArt_diff2, phiAnalytic))
+    print("Artificial hyperdiffusion L2 error norm = ", 
+          L2ErrorNorm(phiArt_diff4, phiAnalytic))
