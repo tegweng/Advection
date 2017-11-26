@@ -14,16 +14,18 @@ import matplotlib.pyplot as plt
 # code associated with this application (use with runfile if exec not supported)
 """
 execfile("advectionBTBS.py")
-execfile("Advection_FTBS.py")
+execfile("AdvFTBS_totalvariation.py")
 execfile("advectionFTCS.py")
 execfile("advectionCTCS.py")
 execfile("diagnostics.py")
 execfile("initialConditions.py")
 execfile("Artificial_diffusion.py")
 execfile("advectionTVD.py")
+execfile("SemiLagrangian.py")
+execfile("Warming_and_Beam.py")
 """
 runfile("advectionBTBS.py")
-runfile("Advection_FTBS.py")
+runfile("AdvFTBS_totalvariation.py")
 runfile("advectionFTCS.py")
 runfile("advectionCTCS.py")
 runfile("diagnostics.py")
@@ -147,7 +149,6 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, c=0.125, u = 1, d_2=0.1012, \
         plt.title("dt = {:.5f}, c = {:.3f}".format(dt, c))
         plt.savefig('Plots/' + name_fig + '_' + \
                     func.__name__ + '.pdf')
-        break
         
     if (Q2==True):
         plt.figure(2)
@@ -165,7 +166,6 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, c=0.125, u = 1, d_2=0.1012, \
         plt.legend(loc='center right')
         plt.savefig('Plots/' + name_fig + '_' + \
                 func.__name__ + '.pdf')
-        break
     
     if (Q1==False or Q2==False):    
         # calculate error norms
