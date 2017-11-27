@@ -164,30 +164,30 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d_2=0.1012, \
     """
 #student id: 25803263 Testing code for order of accuracy
 #cosine
-dxs = [0.24, 0.024, 0.012, 0.0061, 0.0024, 0.0012]
-gradFTBS = [0.17, 0.1 , 0.054,0.028, 0.012, 0.006]
-gradCTCS = [0.057, 0.019 , 0.0055, 0.0016, 0.0003, 1e-4]
-gradFTCS = [0.068, 0.028 , 0.011, 0.0049, 0.0019, 0.0014]
-gradBTBS = [0.21, 0.13 , 0.069, 0.036, 0.015, 0.0076]
-gradTVDK = [0.033, 0.011 ,0.0031,0.00086, 0.00017, 4.2e-5]
-gradSL = [0.12, 0.11 ,0.12, 0.12, 0.12, 0.12]
-gradART2 = [0.25, 0.17 ,0.093, 0.050, 0.021, 0.011]
-gradART4 = [0.078, 0.028 ,0.0059, 0.0016, 0.00032, 9.4e-5]
-gradWB = [0.08, 0.028 , 0.008, 0.0023, 0.00047, 0.00014]
+dxs = [0.045, 0.032, 0.024, 0.012, 0.0061, 0.0024, 0.0012]
+gradFTBS = [0.17,0.13, 0.1 , 0.054,0.028, 0.012, 0.006]
+gradCTCS = [0.057, 0.031, 0.019 , 0.0055, 0.0016, 0.0003, 1e-4]
+gradFTCS = [0.068, 0.040,0.028 , 0.011, 0.0049, 0.0019, 0.0014]
+gradBTBS = [0.21, 0.16, 0.13 , 0.069, 0.036, 0.015, 0.0076]
+gradTVDK = [0.033, 0.017, 0.011 ,0.0031,0.00086, 0.00017, 4.2e-5]
+gradSL = [0.13,0.12, 0.11 ,0.12, 0.12, 0.12, 0.12]
+gradART2 = [0.25, 0.20, 0.17 ,0.093, 0.050, 0.021, 0.011]
+gradART4 = [0.078,0.041, 0.028 ,0.0059, 0.0016, 0.00032, 9.4e-5]
+gradWB = [0.08, 0.045, 0.028 , 0.008, 0.0023, 0.00047, 0.00014]
 
 
 
 plt.figure(4)
 plt.loglog(dxs,gradFTBS, label = 'FTBS', color = 'blue')
-plt.loglog(dxs,gradCTCS, label = 'BTBS', color = 'red')
-plt.loglog(dxs,gradFTCS, label = 'FTBS', color = 'green')
-plt.loglog(dxs,gradCTCS, label = 'BTBS', color = 'maroon')
+plt.loglog(dxs,gradCTCS, label = 'CTCS', color = 'red')
+plt.loglog(dxs,gradFTCS, label = 'FTCS', color = 'green')
+plt.loglog(dxs,gradBTBS, label = 'BTBS', color = 'maroon')
 plt.loglog(dxs,gradTVDK, label = 'TVD', color = 'orange')
 plt.loglog(dxs,gradSL, label = 'SL', color = 'black')
 plt.loglog(dxs,gradWB, label = 'WB', color = 'purple')
 plt.loglog(dxs,gradART2, label = 'AD 2', color = 'navy')
 plt.loglog(dxs,gradART4, label = 'AD 4', color = 'pink')
-plt.legend()
+plt.legend(loc = 4)
 plt.xlabel('$\Delta x$')
 plt.savefig('plots/order_accuracy.pdf')
 
