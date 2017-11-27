@@ -137,3 +137,4 @@ def order(dxs, errors):
         grad[i]=(math.log(abs(errors[i+1]))-math.log(abs(errors[i])))/(math.log(abs(dxs[i+1]))-math.log(abs(dxs[i])))
     print('The accuracy is' + str(grad))
 
+    

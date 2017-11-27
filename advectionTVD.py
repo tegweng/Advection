@@ -45,9 +45,25 @@ def TVD(phiOld, c, nt, u, limiter):
         #calculating phi at n+1
             
             phi[i] = phiOld[i] - c * (phiTVD[i] - phiTVD[i-1])
+
+        #checking that the scheme is in fact TVD
+        #set TV back to zero at each time step
+        if it == 0:
+            TVold = np.zeros(len(phi)-1)
+        else:
+            TVold = TV.copy()
+        TV=np.zeros(len(phi)-1)
+        for i in xrange(0, len(phi)-2):
             
+            TV[i] = abs(phi[i+1]-phi[i])
+        if it > 0:
+            if np.sum(TVold) >= np.sum(TV):
+                print(str(limiter) + ' at time step ' + str(it) + ' - yes!')
+            else:
+                print(str(limiter) + ' at time step ' + str(it) + ' - no!')
         #setting phiOld to be phi to return to top of loop
         phiOld = phi.copy()
+        
     
     return phi
 
