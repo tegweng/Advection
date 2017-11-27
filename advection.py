@@ -118,7 +118,7 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d_2=0.1012, \
     plt.plot(x, phiBTBS, label = 'BTBS', color = 'green')
 
 
-"""
+    """
     plt.plot(x, phiTVDK, label='TVD', color='blue')
     plt.plot(x, phiSemiLag, label = 'SemiLag', color = 'green')
     plt.plot(x, phiWB, label='WB', color='maroon')
@@ -149,38 +149,54 @@ def main(xmin = 0., xmax = 1., nx = 41, T = 0.125, nt = 40, u = 1, d_2=0.1012, \
     print("Artificial hyperdiffusion L2 error norm = ", 
           L2ErrorNorm(phiArt_diff4, phiAnalytic))
 
-dxs = [0.00024, 0.0024, 0.024, 0.24]
-gradFTBS = [0, 0 , 0, 0]
-gradCTCS = [0, 0 , 0, 0]
-gradFTCS = [0, 0 , 0, 0]
-gradBTBS = [0, 0 , 0, 0]
-gradTVDK = [0, 0 , 0, 0]
-gradSL = [0, 0 , 0, 0]
-gradWB = [0, 0 , 0, 0]
-gradART2 = [0, 0 , 0, 0]
-gradART4 = [0, 0 , 0, 0]
+          
+
+
+    #Student ID: 25818629
+    #Testing boundedness for TVD
+    #To test other schemes, simply change TVD to the other scheme
+    """
+    for i in range(0, nx):
+        if 0 <= phiTVDK[i] <= 1:
+            print('TVD bounded')
+        else:
+            print('TVD not bounded')
+    """
+#student id: 25803263 Testing code for order of accuracy
+
+dxs = [0.24, 0.024, 0.0024, 0.0012]
+gradFTBS = [0.17, 0.1 , 0.012, 0.006]
+gradCTCS = [0.057, 0.019 , 0.0003, 1e-5]
+gradFTCS = [0.068, 0.028 , 0.0019, 0.0014]
+gradBTBS = [0.21, 0.13 , 0.015, 0.0076]
+gradTVDK = [0.033, 0.011 , 0.00017, 4.2e-5]
+gradSL = [0.12, 0.11 , 0.12, 0.12]
+gradART2 = [0.25, 0.17 , 0.021, 0.011]
+gradART4 = [0.078, 0.028 , 0.00032, 9.4e-5]
+gradWB = [0.08, 0.028 , 0.00047, 0.00014]
 
 
 
 plt.figure(4)
-plt.loglog(dxs,order(dxs,gradFTBS), label = 'FTBS', color = 'blue')
-plt.loglog(dxs,order(dxs, gradCTCS), label = 'BTBS', color = 'red')
-plt.loglog(dxs,order(dxs, gradFTCS), label = 'FTBS', color = 'green')
-plt.loglog(dxs,order(dxs, gradCTCS), label = 'BTBS', color = 'yellow')
-plt.loglog(dxs,order(dxs, gradTVDK), label = 'TVD', color = 'orange')
-plt.loglog(dxs,order(dxs, gradSL), label = 'SL', color = 'brown')
-plt.loglog(dxs,order(dxs, gradWB), label = 'WB', color = 'purple')
-plt.loglog(dxs,order(dxs, gradART2), label = 'AD 2', color = 'navy')
-plt.loglog(dxs,order(dxs, gradART4), label = 'AD 4', color = 'pink')
-plt.legend(bbox_to_anchor=(1, 0.5))
+plt.loglog(dxs,gradFTBS, label = 'FTBS', color = 'blue')
+plt.loglog(dxs,gradCTCS, label = 'BTBS', color = 'red')
+plt.loglog(dxs,gradFTCS, label = 'FTBS', color = 'green')
+plt.loglog(dxs,gradCTCS, label = 'BTBS', color = 'maroon')
+plt.loglog(dxs,gradTVDK, label = 'TVD', color = 'orange')
+plt.loglog(dxs,gradSL, label = 'SL', color = 'black')
+plt.loglog(dxs,gradWB, label = 'WB', color = 'purple')
+plt.loglog(dxs,gradART2, label = 'AD 2', color = 'navy')
+plt.loglog(dxs,gradART4, label = 'AD 4', color = 'pink')
+plt.legend()
 plt.xlabel('$\Delta x$')
 plt.savefig('plots/order_accuracy.pdf')
 
-#Student ID: 25818629
-#Testing boundedness for TVD
-#To test other schemes, simply change TVD to the other scheme
- for i in range(0, nx):
-        if 0 <= phiTVD[i] <= 1:
-            print('TVD bounded')
-        else:
-            print('TVD not bounded')
+order(dxs, gradFTBS)
+order(dxs, gradCTCS)
+order(dxs, gradFTCS)
+order(dxs, gradBTBS)
+order(dxs, gradTVDK)
+order(dxs, gradSL)
+order(dxs, gradART2)
+order(dxs, gradART4)
+order(dxs, gradWB)

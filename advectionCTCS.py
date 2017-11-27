@@ -63,4 +63,4 @@ def CTCS(phiOld, c, nt):
         # total variation for time steps 2 to nt
         TotalVariation[it]=TV(phiNew)
         
-    return phiNew, TotalVariation
+    return phiNew #TotalVariation

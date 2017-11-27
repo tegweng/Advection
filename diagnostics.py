@@ -132,8 +132,8 @@ def compare(c1, c2, dx):
     plt.savefig('Plots/dispersionrelationcompare.pdf')
     
 def order(dxs, errors):
-    grad = np.zeros(len(dxs)-1)
+    grad = np.zeros(len(errors)-1)
     for i in xrange(0,len(grad)):
         grad[i]=(math.log(abs(errors[i+1]))-math.log(abs(errors[i])))/(math.log(abs(dxs[i+1]))-math.log(abs(dxs[i])))
-    return(grad)
+    print('The accuracy is' + str(grad))
 
